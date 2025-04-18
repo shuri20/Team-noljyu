@@ -3,6 +3,16 @@
 <!DOCTYPE html>
 <html>
 <head>
+<style type="text/css">
+caption
+{
+	text-align:center;
+}
+th,td
+{
+	text-align:center;
+}
+</style>
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>

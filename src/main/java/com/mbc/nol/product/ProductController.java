@@ -13,6 +13,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
@@ -42,8 +44,9 @@ public class ProductController {
 			mf.transferTo(new File(path+"\\"+fname));			
 			String productdate=mul.getParameter("productdate");	
 			String productname=mul.getParameter("productname");
+			String productlink=mul.getParameter("productlink");
 			ProductService ps=sqlSession.getMapper(ProductService.class);
-			ps.productinput(id,animal,productlist,price,fname,productdate,productname);			
+			ps.productinput(id,animal,productlist,price,fname,productdate,productname,productlink);			
 			
 			return "redirect:/main";
 	}
@@ -90,16 +93,17 @@ public class ProductController {
 		String animal=mul.getParameter("animal");
 		String productlist=mul.getParameter("productlist");		
 		int price=Integer.parseInt(mul.getParameter("price"));
-		MultipartFile mf=mul.getFile("productimg");//¿ÃπÃ¡ˆ¿« ø©∑Ø¡§∫∏
-		String dfname=mul.getParameter("himage");//±‚¡∏¿ÃπÃ¡ˆ
-		String fname=mf.getOriginalFilename();//∆ƒ¿œ∏Ì∞˙ »Æ¿Â¿⁄
+		MultipartFile mf=mul.getFile("productimg");//Ïù¥ÎØ∏ÏßÄÏùò Ïó¨Îü¨Ï†ïÎ≥¥
+		String dfname=mul.getParameter("himage");//Í∏∞Ï°¥Ïù¥ÎØ∏ÏßÄ
+		String fname=mf.getOriginalFilename();//ÌååÏùºÎ™ÖÍ≥º ÌôïÏû•Ïûê
 		UUID uu=UUID.randomUUID();
 		fname=uu.toString()+"_"+fname;
 		String productdate=mul.getParameter("productdate");
 		String productname=mul.getParameter("productname");
+		String productlink=mul.getParameter("productlink");
 		ProductService ps=sqlSession.getMapper(ProductService.class);
-		ps.pmodify2(productnum,id,animal,productlist,price,fname,productdate,productname);
-		mf.transferTo(new File(path+"\\"+fname));//ºˆ¡§¿ÃπÃ¡ˆ ¿˙¿Â
+		ps.pmodify2(productnum,id,animal,productlist,price,fname,productdate,productname,productlink);
+		mf.transferTo(new File(path+"\\"+fname));//ÏàòÏ†ïÏù¥ÎØ∏ÏßÄ Ï†ÄÏû•
 		mf.transferTo(new File(path+"\\"+dfname));
 		File ff=new File(path+"\\"+dfname);
 		ff.delete();
@@ -161,14 +165,44 @@ public class ProductController {
 		return "dogproductmain";
 	}
 	
-	@RequestMapping(value = "dogtoyliving")
+	@RequestMapping(value = "dogfoodsnack")
 	public String product12(HttpServletRequest request,Model model) 
+	{
+		ProductService ps=sqlSession.getMapper(ProductService.class);		
+		ArrayList<ProductDTO>list=ps.dogfoodsnack();
+		model.addAttribute("list",list);
+		
+		return "dogfoodsnack";
+	}
+	
+	@RequestMapping(value = "dogtoyliving")
+	public String product13(HttpServletRequest request,Model model) 
 	{
 		ProductService ps=sqlSession.getMapper(ProductService.class);		
 		ArrayList<ProductDTO>list=ps.dogtoyliving();
 		model.addAttribute("list",list);
 		
 		return "dogtoyliving";
+	}
+	
+	@RequestMapping(value = "doghealthtoilet")
+	public String product14(HttpServletRequest request,Model model) 
+	{
+		ProductService ps=sqlSession.getMapper(ProductService.class);		
+		ArrayList<ProductDTO>list=ps.doghealthtoilet();
+		model.addAttribute("list",list);
+		
+		return "doghealthtoilet";
+	}
+	
+	@RequestMapping(value = "dogbeautyfashion")
+	public String product15(HttpServletRequest request,Model model) 
+	{
+		ProductService ps=sqlSession.getMapper(ProductService.class);		
+		ArrayList<ProductDTO>list=ps.dogbeautyfashion();
+		model.addAttribute("list",list);
+		
+		return "dogbeautyfashion";
 	}
 	
 	@RequestMapping(value = "/catproductmain")
@@ -180,7 +214,47 @@ public class ProductController {
 		
 		return "catproductmain";
 	}
-
+	
+	@RequestMapping(value = "catfoodsnack")
+	public String product17(HttpServletRequest request,Model model) 
+	{
+		ProductService ps=sqlSession.getMapper(ProductService.class);		
+		ArrayList<ProductDTO>list=ps.catfoodsnack();
+		model.addAttribute("list",list);
+		
+		return "catfoodsnack";
+	}
+	
+	@RequestMapping(value = "cattoyliving")
+	public String product18(HttpServletRequest request,Model model) 
+	{
+		ProductService ps=sqlSession.getMapper(ProductService.class);		
+		ArrayList<ProductDTO>list=ps.cattoyliving();
+		model.addAttribute("list",list);
+		
+		return "cattoyliving";
+	}
+	
+	@RequestMapping(value = "cathealthtoilet")
+	public String product19(HttpServletRequest request,Model model) 
+	{
+		ProductService ps=sqlSession.getMapper(ProductService.class);		
+		ArrayList<ProductDTO>list=ps.cathealthtoilet();
+		model.addAttribute("list",list);
+		
+		return "cathealthtoilet";
+	}
+	
+	@RequestMapping(value = "catbeautyfashion")
+	public String product20(HttpServletRequest request,Model model) 
+	{
+		ProductService ps=sqlSession.getMapper(ProductService.class);		
+		ArrayList<ProductDTO>list=ps.catbeautyfashion();
+		model.addAttribute("list",list);
+		
+		return "catbeautyfashion";
+	}	
+	
 	@RequestMapping(value = "/birdproductmain")
 	public String product21(HttpServletRequest request,Model model) 
 	{
@@ -189,7 +263,47 @@ public class ProductController {
 		model.addAttribute("list",list);
 		
 		return "birdproductmain";
+	}	
+	
+	@RequestMapping(value = "birdfoodsnack")
+	public String product22(HttpServletRequest request,Model model) 
+	{
+		ProductService ps=sqlSession.getMapper(ProductService.class);		
+		ArrayList<ProductDTO>list=ps.birdfoodsnack();
+		model.addAttribute("list",list);
+		
+		return "birdfoodsnack";
 	}
+	
+	@RequestMapping(value = "birdtoyliving")
+	public String product23(HttpServletRequest request,Model model) 
+	{
+		ProductService ps=sqlSession.getMapper(ProductService.class);		
+		ArrayList<ProductDTO>list=ps.birdtoyliving();
+		model.addAttribute("list",list);
+		
+		return "birdtoyliving";
+	}
+	
+	@RequestMapping(value = "birdhealthtoilet")
+	public String product24(HttpServletRequest request,Model model) 
+	{
+		ProductService ps=sqlSession.getMapper(ProductService.class);		
+		ArrayList<ProductDTO>list=ps.birdhealthtoilet();
+		model.addAttribute("list",list);
+		
+		return "birdhealthtoilet";
+	}
+	
+	@RequestMapping(value = "birdbeautyfashion")
+	public String product25(HttpServletRequest request,Model model) 
+	{
+		ProductService ps=sqlSession.getMapper(ProductService.class);		
+		ArrayList<ProductDTO>list=ps.birdbeautyfashion();
+		model.addAttribute("list",list);
+		
+		return "birdbeautyfashion";
+	}	
 	
 	@RequestMapping(value = "/fishproductmain")
 	public String product26(HttpServletRequest request,Model model) 
@@ -201,6 +315,46 @@ public class ProductController {
 		return "fishproductmain";
 	}
 	
+	@RequestMapping(value = "fishfoodsnack")
+	public String product27(HttpServletRequest request,Model model) 
+	{
+		ProductService ps=sqlSession.getMapper(ProductService.class);		
+		ArrayList<ProductDTO>list=ps.fishfoodsnack();
+		model.addAttribute("list",list);
+		
+		return "fishfoodsnack";
+	}
+	
+	@RequestMapping(value = "fishtoyliving")
+	public String product28(HttpServletRequest request,Model model) 
+	{
+		ProductService ps=sqlSession.getMapper(ProductService.class);		
+		ArrayList<ProductDTO>list=ps.fishtoyliving();
+		model.addAttribute("list",list);
+		
+		return "fishtoyliving";
+	}
+	
+	@RequestMapping(value = "fishhealthtoilet")
+	public String product29(HttpServletRequest request,Model model) 
+	{
+		ProductService ps=sqlSession.getMapper(ProductService.class);		
+		ArrayList<ProductDTO>list=ps.fishhealthtoilet();
+		model.addAttribute("list",list);
+		
+		return "fishhealthtoilet";
+	}
+	
+	@RequestMapping(value = "fishbeautyfashion")
+	public String product30(HttpServletRequest request,Model model) 
+	{
+		ProductService ps=sqlSession.getMapper(ProductService.class);		
+		ArrayList<ProductDTO>list=ps.fishbeautyfashion();
+		model.addAttribute("list",list);
+		
+		return "fishbeautyfashion";
+	}	
+	
 	@RequestMapping(value = "/creepproductmain")
 	public String product31(HttpServletRequest request,Model model) 
 	{
@@ -210,5 +364,116 @@ public class ProductController {
 		
 		return "creepproductmain";
 	}
+	
+	@RequestMapping(value = "creepfoodsnack")
+	public String product32(HttpServletRequest request,Model model) 
+	{
+		ProductService ps=sqlSession.getMapper(ProductService.class);		
+		ArrayList<ProductDTO>list=ps.creepfoodsnack();
+		model.addAttribute("list",list);
+		
+		return "creepfoodsnack";
+	}
+	
+	@RequestMapping(value = "creeptoyliving")
+	public String product33(HttpServletRequest request,Model model) 
+	{
+		ProductService ps=sqlSession.getMapper(ProductService.class);		
+		ArrayList<ProductDTO>list=ps.creeptoyliving();
+		model.addAttribute("list",list);
+		
+		return "creeptoyliving";
+	}
+	
+	@RequestMapping(value = "creephealthtoilet")
+	public String product34(HttpServletRequest request,Model model) 
+	{
+		ProductService ps=sqlSession.getMapper(ProductService.class);		
+		ArrayList<ProductDTO>list=ps.creephealthtoilet();
+		model.addAttribute("list",list);
+		
+		return "creephealthtoilet";
+	}
+	
+	@RequestMapping(value = "creepbeautyfashion")
+	public String product35(HttpServletRequest request,Model model) 
+	{
+		ProductService ps=sqlSession.getMapper(ProductService.class);		
+		ArrayList<ProductDTO>list=ps.creepbeautyfashion();
+		model.addAttribute("list",list);
+		
+		return "creepbeautyfashion";
+	}	
+			
+	@RequestMapping(value = "/productbuy")
+	public String product36(Model model,HttpServletRequest request) 
+	{
+		int num=Integer.parseInt(request.getParameter("num"));
+		ProductService ps=sqlSession.getMapper(ProductService.class);
+		ArrayList<ProductDTO>list=ps.productbuy(num);
+		model.addAttribute("list",list);
+				
+		return "productbuy";
+	}	
+		
+	@RequestMapping(value = "/cart1")
+	public String product37(HttpServletRequest request, Model model) 
+	{
+		int num=Integer.parseInt(request.getParameter("num"));
+		String fname=request.getParameter("fname");
+		ProductService ps=sqlSession.getMapper(ProductService.class);
+		ProductDTO dto=ps.cart1(num);
+		model.addAttribute("dto",dto);
+		
+		return "cart1";
+	}
+	
+	@RequestMapping(value = "/cartsave")
+	public String product38(MultipartHttpServletRequest mul)  
+	{
+		int productnum=Integer.parseInt(mul.getParameter("num"));
+		String id=mul.getParameter("id");			
+		int price=Integer.parseInt(mul.getParameter("price"));	
+		String dfname=mul.getParameter("himage");//Í∏∞Ï°¥Ïù¥ÎØ∏ÏßÄ	
+		String productname=mul.getParameter("productname");
+		ProductService ps=sqlSession.getMapper(ProductService.class);
+		ps.cartsave(productnum,id,price,dfname,productname);		
+				
+		return "productcart";
+	}	
+	
+	@RequestMapping(value = "/productcart")
+	public String product39(HttpServletRequest request, Model model) {
+	    int num = Integer.parseInt(request.getParameter("num"));
+
+	    ProductService ps = sqlSession.getMapper(ProductService.class);
+	    
+	    // 1. ÏÉÅÌíà ÏÉÅÏÑ∏ Ï†ïÎ≥¥ Í∞ÄÏ†∏Ïò§Í∏∞
+	    ProductDTO dto = ps.productdetail(num);
+	    
+	    // 2. Ïû•Î∞îÍµ¨ÎãàÏóê Ï†ÄÏû•
+	    ps.cartsave(dto.getProductnum(), dto.getId(), dto.getPrice(), dto.getProductimg(), dto.getProductname());
+	    
+	    // 3. Ï†ÄÏû•Îêú Ïû•Î∞îÍµ¨Îãà Î™©Î°ù Î∂àÎü¨Ïò§Í∏∞
+	    ArrayList<CartDTO> list = ps.cartlist(dto.getId());
+	    model.addAttribute("list", list);
+
+	    return "productcart"; // Ïû•Î∞îÍµ¨Îãà ÌéòÏù¥ÏßÄÎ°ú Ïù¥Îèô
+	}
+	
+	@RequestMapping(value = "/cartdelete")
+	public String product40(HttpServletRequest request) 
+	{
+	  	int dnum=Integer.parseInt(request.getParameter("ordernum"));
+		String dfname=request.getParameter("himage");		
+		ProductService ps=sqlSession.getMapper(ProductService.class);
+		ps.cartdelete(dnum);		
+		File ff=new File(path+"\\"+dfname);
+		ff.delete();	
+		
+		return "redirect:/productout";	    
+	}
+	
+	
 	
 }

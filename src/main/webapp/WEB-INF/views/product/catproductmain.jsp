@@ -111,10 +111,10 @@ gap:16px;
 	</div>
 	<br>
 	<div id="bb">
-		<a href="dogfoodsnack">사료&간식</a>
-		<a href="dogtoyliving">장난감&리빙</a>
-		<a href="doghealthtoilet">건강&배변</a>
-		<a href="dogbeautyfashion">미용&패션</a>
+		<a href="catfoodsnack">사료&간식</a>
+		<a href="cattoyliving">장난감&리빙</a>
+		<a href="cathealthtoilet">건강&배변</a>
+		<a href="catbeautyfashion">미용&패션</a>
 	</div>
 	<br>
 	<div class="product-list">

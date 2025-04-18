@@ -6,62 +6,147 @@
 <html>
 <head>
 <style>
+#aa
+{
+	padding-top: 10px;
+	font-size: 1.5em;
+}
+#bb
+{
+	padding-top: 10px;
+	font-size: 1.5em;
+	background-color: white;
+}
 table
 {
 	margin-top: 50px;
 	margin-bottom: 350px;
 }
-caption
-{
-	text-align:center;
-}
 th,td
 {
 	text-align:center;
-	font-size:1.2em;
+}
+
+
+.container{
+display:flex;
+flex-direction:column; 
+justify-content:space-between;
+width:300px;
+gap:24px;
+border:1px solid #ebeaec;
+box-shadow:0px 2px 4px rgba(0,0,0,0.3);
+border-radius:16px;
+padding:24px;
+}    
+.top{
+font-weight:bold;
+font-size:16px
+}
+.bottom .name{
+font-size:13px;
+color:#727174;
+}
+.bottom .date{
+font-size:12px;
+color:#b4b4b6;
+}
+body
+{
+	padding-top: 100px;
+	margin-bottom: 350px;
+}
+.wrap{
+display:flex;
+justify-content:row;
+gap:16px;
+}
+.flex-container {
+  display: flex;
+  gap: 10px; /* 이미지 간 간격 */
+}
+.product-list {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); /* 1줄에 4개 */
+  gap: 20px;
+  padding: 20px;
+}
+
+.product {
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  padding: 10px;
+  box-shadow: 0px 2px 5px rgba(0,0,0,0.1);
+  text-align: center;
+}
+
+.product img {
+  width: 100%;
+  height: auto;
+}
+
+.product .name {
+  font-size: 16px;
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+.product .price {
+  font-size: 14px;
+  color: #888;
 }
 </style>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<link href="alignpractice.css" rel="stylesheet" type="text/css" />
 <title>Insert title here</title>
 </head>
 <body>
-<a href="dogproduct"><img alt="" src="./image/2-modified.png" width="200px" height="160px"></a>
-<a href="catproduct"><img alt="" src="./image/cat-modified.png" width="200px" height="160px"></a>
-<a href="birdproduct"><img alt="" src="./image/bird2-modified.png" width="200px" height="160px"></a>
-<a href="fishproduct"><img alt="" src="./image/goldfish-modified.png" width="200px" height="160px"></a>
-<a href="creepingproduct"><img alt="" src="./image/reptile2-modified.png" width="200px" height="160px"></a>
+	<div id="aa">
+		<a href="dogproductmain"><img alt="" src="./image/2-modified.png" width="200px" height="160px"></a>
+		<a href="catproductmain"><img alt="" src="./image/cat-modified.png" width="200px" height="160px"></a>
+		<a href="birdproductmain"><img alt="" src="./image/bird2-modified.png" width="200px" height="160px"></a>
+		<a href="fishproductmain"><img alt="" src="./image/goldfish-modified.png" width="200px" height="160px"></a>
+		<a href="creepproductmain"><img alt="" src="./image/reptile2-modified.png" width="200px" height="160px"></a>
+	</div>
+	<br>
+	<div id="bb">
+		<a href="dogfoodsnack">사료&간식</a>
+		<a href="dogtoyliving">장난감&리빙</a>
+		<a href="doghealthtoilet">건강&배변</a>
+		<a href="dogbeautyfashion">미용&패션</a>
+	</div>
+	<br>
+	<div class="product-list">
+	  <c:forEach items="${list}" var="pro">
+	    <div class="product">
+	      <a href="productdetail?num=${pro.productnum}">
+	        <img alt="${pro.productname}" src="./image/${pro.productimg}" width="300px" height="300px">
+	      </a>
+	      <div class="animal">${pro.animal}</div>
+	      <div class="productlist">${pro.productlist}</div>
+	      <div class="name">${pro.productname}</div>
+	      <div class="price">₩${pro.price}</div>
+	    </div>
+	  </c:forEach>
+	</div>
 
-
-
-<table border="3" width="1200px" align="center">
-<caption></caption>
-	<tr>
-		<th>상품번호</th><th>아이디</th><th>동물구분</th>
-		<th>상품목록</th><th>상품명</th><th>가격</th><th>상품이미지</th>
-		<th>조회수</th><th>구입날짜</th><th>비고</th>		
-	</tr>
-	<c:forEach items="${list}" var="pro">
-	<tr>
-		<td>${pro.productnum} </td>
-		<td>${pro.id} </td>
-		<td>${pro.animal} </td>
-		<td>${pro.productlist} </td>
-		<td>${pro.productname} </td>
-		<td>
-		<fmt:formatNumber value="${pro.price}" pattern="#,##0"/>
-		</td>
-		<td>
-			<a href="productdetail?num=${pro.productnum}">	
-			<img alt="" src="./image/${pro.productimg}" width="80px" height="100px"></a>			
-		</td>
-		<td>${pro.productcnt} </td>	
-		<td>${pro.productdate} </td>
-		<td>
-			<a href="pmodify1?num=${pro.productnum}">수정</a>
-			<a href="pdelete1?num=${pro.productnum}">삭제</a>
-		</td>	
-	</tr>	
-	</c:forEach>		
-</table>
+	<div class="flex-container">
+	  <c:forEach items="${list}" var="pro">
+	    <div class="wrap"> 
+	      <div class="container">
+	        <div class="top">	
+	          <a href="productdetail?num=${pro.productnum}">	
+	            <img alt="${pro.productname}" src="./image/${pro.productimg}" width="180px" height="180px">
+	          </a>
+	        </div>
+	        <div class="bottom">
+	          <div class="name">${pro.productname}</div>
+	          <div class="price">₩${pro.price}</div>
+	        </div>
+	      </div>
+	    </div>
+	  </c:forEach>
+	</div>
 </body>
 </html>

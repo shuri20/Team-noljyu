@@ -111,10 +111,10 @@ gap:16px;
 	</div>
 	<br>
 	<div id="bb">
-		<a href="fishfoodsnack">사료&간식</a>
-		<a href="fishtoyliving">장난감&리빙</a>
-		<a href="fishhealthtoilet">건강&배변</a>
-		<a href="fishbeautyfashion">미용&패션</a>
+		<a href="creepfoodsnack">사료&간식</a>
+		<a href="creeptoyliving">장난감&리빙</a>
+		<a href="creephealthtoilet">건강&배변</a>
+		<a href="creepbeautyfashion">미용&패션</a>
 	</div>
 	<br>
 	<div class="product-list">

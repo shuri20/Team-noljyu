@@ -5,6 +5,22 @@
 <!DOCTYPE html>
 <html>
 <head>
+<style>
+table
+{
+	margin-top: 50px;
+	margin-bottom: 350px;
+}
+caption
+{
+	text-align:center;
+}
+th,td
+{
+	text-align:center;
+	font-size:1.2em;
+}
+</style>
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
@@ -25,6 +41,7 @@
 			<fmt:formatNumber value="${pro.price}" pattern="#,##0"/>  
 		</td>
 		<td>
+			<a href="productdetail?num=${pro.productnum}">	
 			<img src="./image/${pro.productimg}" width="70px" height="100px"> 
 		</td>	
 		<td>${pro.productcnt} </td>	

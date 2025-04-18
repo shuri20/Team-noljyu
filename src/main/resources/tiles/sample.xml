@@ -39,27 +39,27 @@
    
    <!-- 상품등록 -->
    <definition name="productinput" extends="baseLayout">
-      <put-attribute name="title" value="메인화면"/>
+      <put-attribute name="title" value="상품등록"/>
       <put-attribute name="body" value="/WEB-INF/views/product/productinput.jsp"/>
    </definition>
    <!-- 상품 조회 -->
    <definition name="productout" extends="baseLayout">
-      <put-attribute name="title" value="메인화면"/>
+      <put-attribute name="title" value="상품 조회"/>
       <put-attribute name="body" value="/WEB-INF/views/product/productout.jsp"/>
    </definition>
    <!-- 상품 상세조회 -->
    <definition name="productdetail" extends="baseLayout">
-      <put-attribute name="title" value="메인화면"/>
+      <put-attribute name="title" value="상품 상세조회"/>
       <put-attribute name="body" value="/WEB-INF/views/product/productdetail.jsp"/>
    </definition>
    <!-- 상품정보 삭제 -->
    <definition name="pmodify1" extends="baseLayout">
-      <put-attribute name="title" value="메인화면"/>
+      <put-attribute name="title" value="상품정보 삭제"/>
       <put-attribute name="body" value="/WEB-INF/views/product/pmodify1.jsp"/>
    </definition>
    <!-- 상품정보 수정 -->
    <definition name="pdelete1" extends="baseLayout">
-      <put-attribute name="title" value="메인화면"/>
+      <put-attribute name="title" value="상품정보 수정"/>
       <put-attribute name="body" value="/WEB-INF/views/product/pdelete1.jsp"/>
    </definition>  
    <!--  상품자료 검색입력  -->
@@ -71,40 +71,153 @@
    <definition name="psearch2" extends="baseLayout">
 	  <put-attribute name="title" value="상품자료검색 출력화면"/>
 	  <put-attribute name="body" value="/WEB-INF/views/product/psearch2.jsp"/>
+   </definition>
+    <!--  상품 장바구니 저장  -->
+   <definition name="cart1" extends="baseLayout">
+	  <put-attribute name="title" value="상품 장바구니 저장"/>
+	  <put-attribute name="body" value="/WEB-INF/views/product/cart1.jsp"/>
+   </definition>  
+   <!--  상품 장바구니 출력  -->
+   <definition name="productcart" extends="baseLayout">
+	  <put-attribute name="title" value="상품 장바구니 출력"/>
+	  <put-attribute name="body" value="/WEB-INF/views/product/productcart.jsp"/>
    </definition>   
+      <!--  상품 구매 출력  -->
+   <definition name="productbuy" extends="baseLayout">
+	  <put-attribute name="title" value="상품 구매 출력"/>
+	  <put-attribute name="body" value="/WEB-INF/views/product/productbuy.jsp"/>
+   </definition>  
+   
      <!--  개 상품자료 전체출력  -->
    <definition name="dogproductmain" extends="baseLayout">
 	  <put-attribute name="title" value="개 상품자료 전체 출력화면"/>
 	  <put-attribute name="body" value="/WEB-INF/views/product/dogproductmain.jsp"/>
-   </definition> 
-   
-       <!--  개 장난감&리빙 출력  -->
+   </definition>    
+     <!--  개 사료&간식 출력  -->
+   <definition name="dogfoodsnack" extends="baseLayout">
+	  <put-attribute name="title" value="개 사료간식 출력"/>
+	  <put-attribute name="body" value="/WEB-INF/views/dogproduct/dogfoodsnack.jsp"/>
+   </definition>   
+     <!--  개 장난감&리빙 출력  -->
    <definition name="dogtoyliving" extends="baseLayout">
 	  <put-attribute name="title" value="개 장난감리빙 출력"/>
 	  <put-attribute name="body" value="/WEB-INF/views/dogproduct/dogtoyliving.jsp"/>
-   </definition> 
-   
-      <!--  고양이 상품자료 전체출력  -->
+   </definition>   
+     <!--  개 건강&배변 출력  -->
+   <definition name="doghealthtoilet" extends="baseLayout">
+	  <put-attribute name="title" value="개 건강배변 출력"/>
+	  <put-attribute name="body" value="/WEB-INF/views/dogproduct/doghealthtoilet.jsp"/>
+   </definition>   
+     <!--  개 미용&패션 출력  -->
+   <definition name="dogbeautyfashion" extends="baseLayout">
+	  <put-attribute name="title" value="개 미용패션 출력"/>
+	  <put-attribute name="body" value="/WEB-INF/views/dogproduct/dogbeautyfashion.jsp"/>
+   </definition>  
+    
+     <!--  고양이 상품자료 전체출력  -->
    <definition name="catproductmain" extends="baseLayout">
 	  <put-attribute name="title" value="고양이 상품자료 전체 출력화면"/>
 	  <put-attribute name="body" value="/WEB-INF/views/product/catproductmain.jsp"/>
    </definition>
-      <!--  새 상품자료 전체출력  -->
+        <!--  고양이 사료&간식 출력  -->
+   <definition name="catfoodsnack" extends="baseLayout">
+	  <put-attribute name="title" value="고양이 사료간식 출력"/>
+	  <put-attribute name="body" value="/WEB-INF/views/catproduct/catfoodsnack.jsp"/>
+   </definition>   
+     <!--  고양이 장난감&리빙 출력  -->
+   <definition name="cattoyliving" extends="baseLayout">
+	  <put-attribute name="title" value="고양이 장난감리빙 출력"/>
+	  <put-attribute name="body" value="/WEB-INF/views/catproduct/cattoyliving.jsp"/>
+   </definition>   
+     <!--  고양이 건강&배변 출력  -->
+   <definition name="cathealthtoilet" extends="baseLayout">
+	  <put-attribute name="title" value="고양이 건강배변 출력"/>
+	  <put-attribute name="body" value="/WEB-INF/views/catproduct/cathealthtoilet.jsp"/>
+   </definition>   
+     <!--  고양이 미용&패션 출력  -->
+   <definition name="catbeautyfashion" extends="baseLayout">
+	  <put-attribute name="title" value="고양이 미용패션 출력"/>
+	  <put-attribute name="body" value="/WEB-INF/views/catproduct/catbeautyfashion.jsp"/>
+   </definition> 
+   
+     <!--  새 상품자료 전체출력  -->
    <definition name="birdproductmain" extends="baseLayout">
 	  <put-attribute name="title" value="새 상품자료 전체 출력화면"/>
 	  <put-attribute name="body" value="/WEB-INF/views/product/birdproductmain.jsp"/>
+   </definition>
+     <!--  새 사료&간식 출력  -->
+   <definition name="birdfoodsnack" extends="baseLayout">
+	  <put-attribute name="title" value="새 사료간식 출력"/>
+	  <put-attribute name="body" value="/WEB-INF/views/birdproduct/birdfoodsnack.jsp"/>
+   </definition>   
+     <!--  새 장난감&리빙 출력  -->
+   <definition name="birdtoyliving" extends="baseLayout">
+	  <put-attribute name="title" value="새 장난감리빙 출력"/>
+	  <put-attribute name="body" value="/WEB-INF/views/birdproduct/birdtoyliving.jsp"/>
+   </definition>   
+     <!--  새 건강&배변 출력  -->
+   <definition name="birdhealthtoilet" extends="baseLayout">
+	  <put-attribute name="title" value="새 건강배변 출력"/>
+	  <put-attribute name="body" value="/WEB-INF/views/birdproduct/birdhealthtoilet.jsp"/>
+   </definition>   
+     <!--  새 미용&패션 출력  -->
+   <definition name="birdbeautyfashion" extends="baseLayout">
+	  <put-attribute name="title" value="새 미용패션 출력"/>
+	  <put-attribute name="body" value="/WEB-INF/views/birdproduct/birdbeautyfashion.jsp"/>
    </definition> 
+   
       <!--  물고기 상품자료 전체출력  -->
    <definition name="fishproductmain" extends="baseLayout">
 	  <put-attribute name="title" value="물고기 상품자료 전체 출력화면"/>
 	  <put-attribute name="body" value="/WEB-INF/views/product/fishproductmain.jsp"/>
    </definition>
+     <!--  물고기 사료&간식 출력  -->
+   <definition name="fishfoodsnack" extends="baseLayout">
+	  <put-attribute name="title" value="물고기 사료간식 출력"/>
+	  <put-attribute name="body" value="/WEB-INF/views/fishproduct/fishfoodsnack.jsp"/>
+   </definition>   
+     <!--  물고기 장난감&리빙 출력  -->
+   <definition name="fishtoyliving" extends="baseLayout">
+	  <put-attribute name="title" value="물고기 장난감리빙 출력"/>
+	  <put-attribute name="body" value="/WEB-INF/views/fishproduct/fishtoyliving.jsp"/>
+   </definition>   
+     <!--  물고기 건강&배변 출력  -->
+   <definition name="fishhealthtoilet" extends="baseLayout">
+	  <put-attribute name="title" value="물고기 건강배변 출력"/>
+	  <put-attribute name="body" value="/WEB-INF/views/fishproduct/fishhealthtoilet.jsp"/>
+   </definition>   
+     <!--  물고기 미용&패션 출력  -->
+   <definition name="fishbeautyfashion" extends="baseLayout">
+	  <put-attribute name="title" value="물고기 미용패션 출력"/>
+	  <put-attribute name="body" value="/WEB-INF/views/fishproduct/fishbeautyfashion.jsp"/>
+   </definition>    
+   
        <!--  파충류 상품자료 전체출력  -->
    <definition name="creepproductmain" extends="baseLayout">
 	  <put-attribute name="title" value="파충류 상품자료 전체 출력화면"/>
 	  <put-attribute name="body" value="/WEB-INF/views/product/creepproductmain.jsp"/>
-   </definition>
-      
+   </definition>   
+       <!--  파충류 사료&간식 출력  -->
+   <definition name="creepfoodsnack" extends="baseLayout">
+	  <put-attribute name="title" value="파충류 사료간식 출력"/>
+	  <put-attribute name="body" value="/WEB-INF/views/creepproduct/creepfoodsnack.jsp"/>
+   </definition>   
+     <!--  파충류 장난감&리빙 출력  -->
+   <definition name="creeptoyliving" extends="baseLayout">
+	  <put-attribute name="title" value="파충류 장난감리빙 출력"/>
+	  <put-attribute name="body" value="/WEB-INF/views/creepproduct/creeptoyliving.jsp"/>
+   </definition>   
+     <!--  파충류 건강&배변 출력  -->
+   <definition name="creephealthtoilet" extends="baseLayout">
+	  <put-attribute name="title" value="파충류 건강배변 출력"/>
+	  <put-attribute name="body" value="/WEB-INF/views/creepproduct/creephealthtoilet.jsp"/>
+   </definition>   
+     <!--  파충류 미용&패션 출력  -->
+   <definition name="creepbeautyfashion" extends="baseLayout">
+	  <put-attribute name="title" value="파충류 미용패션 출력"/>
+	  <put-attribute name="body" value="/WEB-INF/views/creepproduct/creepbeautyfashion.jsp"/>
+   </definition> 
+       
    <!-- 게시물 등록 -->
    <definition name="postinput" extends="baseLayout">
       <put-attribute name="title" value="메인화면"/>

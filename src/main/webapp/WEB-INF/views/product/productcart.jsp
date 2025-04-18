@@ -36,32 +36,29 @@ th,td
 <table border="3" width="1200px" align="center">
 <caption></caption>
 	<tr>
-		<th>상품번호</th><th>아이디</th><th>동물구분</th>
-		<th>상품목록</th><th>상품명</th><th>가격</th><th>상품이미지</th>
-		<th>조회수</th><th>구입날짜</th><th>비고</th>		
+		<th>주문번호</th><th>상품번호</th><th>아이디</th>
+		<th>상품명</th><th>가격</th><th>상품이미지</th>
+		<th>비고</th>		
 	</tr>
 	<c:forEach items="${list}" var="pro">
 	<tr>
+		<td>${pro.ordernum} </td>
 		<td>${pro.productnum} </td>
-		<td>${pro.id} </td>
-		<td>${pro.animal} </td>
-		<td>${pro.productlist} </td>
+		<td>${pro.id} </td>		
 		<td>${pro.productname} </td>
 		<td>
-		<fmt:formatNumber value="${pro.price}" pattern="#,##0"/>
+			<fmt:formatNumber value="${pro.price}" pattern="#,##0"/>
 		</td>
 		<td>
 			<a href="productdetail?num=${pro.productnum}">	
 			<img alt="" src="./image/${pro.productimg}" width="80px" height="100px"></a>			
-		</td>
-		<td>${pro.productcnt} </td>	
-		<td>${pro.productdate} </td>
+		</td>		
 		<td>
-			<a href="pmodify1?num=${pro.productnum}">수정</a>
-			<a href="pdelete1?num=${pro.productnum}">삭제</a>
-		</td>	
+			<a href="productbuy?num=${pro.productnum}">즉시구매</a><br>			
+			<a href="cartdelete?ordernum=${pro.ordernum}&himage=${pro.productimg}&id=${pro.id}">삭제</a>
+		</td>
 	</tr>		
 	</c:forEach>		
-</table>	
+</table>
 </body>
 </html>

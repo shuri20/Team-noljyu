@@ -6,7 +6,7 @@
 <mapper namespace="com.mbc.nol.product.ProductService">
 
 <insert id="productinput">
-insert into "product" values(productnum_seq.nextval,#{param1},#{param2},#{param3},#{param4},#{param5},0,#{param6},#{param7})
+insert into "product" values(productnum_seq.nextval,#{param1},#{param2},#{param3},#{param4},#{param5},0,#{param6},#{param7},#{param8})
 </insert> 	
 
 <select id="productout" resultType="com.mbc.nol.product.ProductDTO">
@@ -27,7 +27,7 @@ select * from "product" where "productnum"=#{param1}
 
 <update id="pmodify2">
 update "product" set "id"=#{param2, jdbcType=VARCHAR},"animal"=#{param3, jdbcType=VARCHAR},"productlist"=#{param4, jdbcType=VARCHAR},"price"=#{param5},
- "productimg"=#{param6, jdbcType=VARCHAR},"productdate"=#{param7},"productname"=#{param8, jdbcType=VARCHAR} where "productnum"=#{param1}
+ "productimg"=#{param6, jdbcType=VARCHAR},"productdate"=#{param7},"productname"=#{param8, jdbcType=VARCHAR},"productlink"=#{param9, jdbcType=VARCHAR} where "productnum"=#{param1}
 </update>
 
 <select id="pdelete1" resultType="com.mbc.nol.product.ProductDTO">
@@ -46,24 +46,124 @@ select * from "product" where "${param1}" like '%'||#{param2}||'%'
 select * from "product" where "animal"='dog' 
 </select>
 
+<select id="dogfoodsnack" resultType="com.mbc.nol.product.ProductDTO">
+select * from "product" where "animal"='dog' and "productlist"='foodsnack'
+</select>
+
 <select id="dogtoyliving" resultType="com.mbc.nol.product.ProductDTO">
-select * from "product" where "animal"='dog' and "productlist"='dogtoy'
+select * from "product" where "animal"='dog' and "productlist"='toyliving'
+</select>
+
+<select id="doghealthtoilet" resultType="com.mbc.nol.product.ProductDTO">
+select * from "product" where "animal"='dog' and "productlist"='healthtoilet'
+</select>
+
+<select id="dogbeautyfashion" resultType="com.mbc.nol.product.ProductDTO">
+select * from "product" where "animal"='dog' and "productlist"='beautyfashion'
 </select>
 
 <select id="catproductout" resultType="com.mbc.nol.product.ProductDTO">
 select * from "product" where "animal"='cat' 
 </select>
 
+<select id="catfoodsnack" resultType="com.mbc.nol.product.ProductDTO">
+select * from "product" where "animal"='cat' and "productlist"='foodsnack'
+</select>
+
+<select id="cattoyliving" resultType="com.mbc.nol.product.ProductDTO">
+select * from "product" where "animal"='cat' and "productlist"='toyliving'
+</select>
+
+<select id="cathealthtoilet" resultType="com.mbc.nol.product.ProductDTO">
+select * from "product" where "animal"='cat' and "productlist"='healthtoilet'
+</select>
+
+<select id="catbeautyfashion" resultType="com.mbc.nol.product.ProductDTO">
+select * from "product" where "animal"='cat' and "productlist"='beautyfashion'
+</select>
+
 <select id="birdproductout" resultType="com.mbc.nol.product.ProductDTO">
 select * from "product" where "animal"='bird' 
+</select>
+
+<select id="birdfoodsnack" resultType="com.mbc.nol.product.ProductDTO">
+select * from "product" where "animal"='bird' and "productlist"='foodsnack'
+</select>
+
+<select id="birdtoyliving" resultType="com.mbc.nol.product.ProductDTO">
+select * from "product" where "animal"='bird' and "productlist"='toyliving'
+</select>
+
+<select id="birdhealthtoilet" resultType="com.mbc.nol.product.ProductDTO">
+select * from "product" where "animal"='bird' and "productlist"='healthtoilet'
+</select>
+
+<select id="birdbeautyfashion" resultType="com.mbc.nol.product.ProductDTO">
+select * from "product" where "animal"='bird' and "productlist"='beautyfashion'
 </select>
 
 <select id="fishproductout" resultType="com.mbc.nol.product.ProductDTO">
 select * from "product" where "animal"='fish' 
 </select>
 
+<select id="fishfoodsnack" resultType="com.mbc.nol.product.ProductDTO">
+select * from "product" where "animal"='fish' and "productlist"='foodsnack'
+</select>
+
+<select id="fishtoyliving" resultType="com.mbc.nol.product.ProductDTO">
+select * from "product" where "animal"='fish' and "productlist"='toyliving'
+</select>
+
+<select id="fishhealthtoilet" resultType="com.mbc.nol.product.ProductDTO">
+select * from "product" where "animal"='fish' and "productlist"='healthtoilet'
+</select>
+
+<select id="fishbeautyfashion" resultType="com.mbc.nol.product.ProductDTO">
+select * from "product" where "animal"='fish' and "productlist"='beautyfashion'
+</select>
+
 <select id="creepproductout" resultType="com.mbc.nol.product.ProductDTO">
 select * from "product" where "animal"='creep' 
+</select>
+
+<select id="creepfoodsnack" resultType="com.mbc.nol.product.ProductDTO">
+select * from "product" where "animal"='creep' and "productlist"='foodsnack'
+</select>
+
+<select id="creeptoyliving" resultType="com.mbc.nol.product.ProductDTO">
+select * from "product" where "animal"='creep' and "productlist"='toyliving'
+</select>
+
+<select id="creephealthtoilet" resultType="com.mbc.nol.product.ProductDTO">
+select * from "product" where "animal"='creep' and "productlist"='healthtoilet'
+</select>
+
+<select id="creepbeautyfashion" resultType="com.mbc.nol.product.ProductDTO">
+select * from "product" where "animal"='creep' and "productlist"='beautyfashion'
+</select>
+
+<select id="productcart" resultType="com.mbc.nol.product.CartDTO">
+select * from "cart" where "id" =#{param1} order by ""ordernum"" asc
+</select>
+
+<select id="productbuy" resultType="com.mbc.nol.product.ProductDTO">
+select * from "product" where "productnum" =#{param1}
+</select>
+
+<select id="cart1" resultType="com.mbc.nol.product.ProductDTO">
+select * from "product" where "productnum"=#{param1}
+</select>
+
+<insert id="cartsave">
+insert into "cart" values(ordernum_seq.nextval,#{param1},#{param2},#{param3},#{param4},#{param5})
+</insert> 
+
+<delete id="cartdelete">
+delete from "cart" where "ordernum"=#{param1}
+</delete>
+
+<select id="cartlist" resultType="com.mbc.nol.product.CartDTO">
+    SELECT * FROM "cart" WHERE "id" = #{param1}
 </select>
 
 </mapper>

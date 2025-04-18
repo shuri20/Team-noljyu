@@ -67,6 +67,10 @@ th,td
 	<td><input type="date" name="productdate" value="${dto.productdate}"></td>	
 </tr>
 <tr>
+		<th>상품링크</th>
+		<td><input type="text" name="productlink"> </td>		
+	</tr>
+<tr>
 	<td colspan="2">
 		<input type="submit" value="수정">
 		<input type="button" value="취소" onclick="location.href='productout'">

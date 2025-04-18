@@ -67,7 +67,8 @@ font-style: italic;
         <c:choose>
         <c:when test="${loginstate==true }">
         <li><a href="mypage"><span class="glyphicon glyphicon-user"></span>${id }마이페이지</a></li>
-      <li><a href="logout"><span class="glyphicon glyphicon-log-in"></span> 로그아웃</a></li>
+        <li><a href="logout"><span class="glyphicon glyphicon-log-in"></span> 로그아웃</a></li>
+        <li><a href="productcart?id=${id}"><span class="glyphicon glyphicon-shopping-cart"></span> 장바구니</a></li>
         </c:when>
         <c:otherwise>
       <li><a href="userinput"><span class="glyphicon glyphicon-user"></span> 회원가입</a></li>

@@ -12,6 +12,7 @@ public class ProductDTO {
 	int productcnt;
     Date productdate;
     String productname;
+    String productlink;
 	public ProductDTO() {
 		super();
 		// TODO Auto-generated constructor stub
@@ -69,6 +70,12 @@ public class ProductDTO {
 	}
 	public void setProductname(String productname) {
 		this.productname = productname;
+	}
+	public String getProductlink() {
+		return productlink;
+	}
+	public void setProductlink(String productlink) {
+		this.productlink = productlink;
 	}
 
 	

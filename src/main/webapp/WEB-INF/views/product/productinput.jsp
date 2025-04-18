@@ -40,10 +40,10 @@ th,td
 		<th>상품목록</th>
 		<td>
            <select name="productlist">
-         	  <option value="dogfood">사료&간식</option>
-              <option value="dogtoy">장난감&리빙</option>
-              <option value="doghealth">건강&배변</option>
-              <option value="dogbeauty">미용&패션</option>             
+         	  <option value="foodsnack">사료&간식</option>
+              <option value="toyliving">장난감&리빙</option>
+              <option value="healthtoilet">건강&배변</option>
+              <option value="beautyfashion">미용&패션</option>             
            </select>
       </td>		
 	</tr>
@@ -63,6 +63,10 @@ th,td
 		<th>구입날짜</th>
 		<td><input type="date" name="productdate"> </td>		
 	</tr>
+	<tr>
+		<th>상품링크</th>
+		<td><input type="text" name="productlink"> </td>		
+	</tr>	
 	<tr>		
 		<td colspan="2">					
 				<input style="background-color: lightgray" type="submit" value="구매내역 전송"> &emsp;		
