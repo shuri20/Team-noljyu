@@ -17,13 +17,18 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import com.mbc.nol.how.HowDTO;
+import com.mbc.nol.how.HowPageDTO;
+import com.mbc.nol.how.HowReviewDTO;
+import com.mbc.nol.how.HowService;
+
 
 @Controller
 public class FleaController {
 
 	@Autowired
 	SqlSession sqlsession;
-	String path="C:\\MBC12AI\\spring\\noljyu\\src\\main\\webapp\\image";
+	String path="C:\\Noljyu\\Team-noljyu\\src\\main\\webapp\\image";
 	
 	@RequestMapping(value = "fleainput")
 	public String hh1() {
@@ -35,36 +40,69 @@ public class FleaController {
 		String id=mul.getParameter("id");
 		String fleatitle=mul.getParameter("fleatitle");
 		String fleadetail=mul.getParameter("fleadetail");
-		
+		String fleatype=mul.getParameter("flea");
 		MultipartFile mf = mul.getFile("fleaimg");
 		String fleaimg=mf.getOriginalFilename();
 		UUID uu = UUID.randomUUID();
 		fleaimg=uu.toString()+"="+fleaimg;
 		System.out.println(id+" "+fleatitle+" "+fleadetail+ " "+fleaimg);
 		FleaService fs = sqlsession.getMapper(FleaService.class);
-		fs.fleainsert(id,fleatitle,fleadetail,fleaimg);
+		fs.fleainsert(id,fleatitle,fleadetail,fleaimg,fleatype);
 		
 		//mf.transferTo(new File(path+"\\"+fleaimg));
 		
-		return "redirect:/";
+		return "redirect:/main";
 	}
 	
 	@RequestMapping(value = "fleaout")
-	public String hh3(Model model) {
+	public String hh3(Model model, FleaPageDTO dto, HttpServletRequest request) {
+		String nowPage=request.getParameter("nowPage");
+        String cntPerPage=request.getParameter("cntPerPage");
 		FleaService fs = sqlsession.getMapper(FleaService.class);
-		ArrayList<FleaDTO> list = fs.fleaout();
-		model.addAttribute("list", list);
+		
+		//전체 레코드 수 구하기 
+        int total=fs.fleatotal();
+        if(nowPage==null && cntPerPage == null) {
+           nowPage="1";
+           cntPerPage="10";
+        }
+        else if(nowPage==null) {
+           nowPage="1";
+        }
+        else if(cntPerPage==null) {
+           cntPerPage="10";
+        }
+        dto = new FleaPageDTO(Integer.parseInt(nowPage), total, Integer.parseInt(cntPerPage));
+		model.addAttribute("list", fs.fleaout(dto));
+		model.addAttribute("paging", dto);
 		return "fleaout";
 	}
 	
 	@RequestMapping(value = "fleadetail")
-	public String hh4(HttpServletRequest request, Model model) {
-		int fleanum = Integer.parseInt(request.getParameter("fleanum"));
+	public String hh4(HttpServletRequest request , FleaPageDTO pdto, Model model) {
+		String nowPage=request.getParameter("nowPage");
+        String cntPerPage=request.getParameter("cntPerPage");
+		int fleanum = Integer.parseInt(request.getParameter("postnum"));
 		FleaService fs = sqlsession.getMapper(FleaService.class);
+		
+		//전체 레코드 수 구하기
+		int total=fs.fleareviewtotal();
+		System.out.println(total);
+		if(nowPage==null && cntPerPage == null) {
+           nowPage="1";
+           cntPerPage="5";
+        }
+        else if(nowPage==null) {
+           nowPage="1";
+        }
+        else if(cntPerPage==null) {
+           cntPerPage="5";
+        }
+		pdto = new FleaPageDTO(Integer.parseInt(nowPage), total, Integer.parseInt(cntPerPage));
 		FleaDTO dto = fs.fleadetailout(fleanum);
-		ArrayList<FleaReviewDTO> list = fs.fleareviewout(fleanum);
 		model.addAttribute("dto", dto);
-		model.addAttribute("list", list);
+		model.addAttribute("list", fs.fleareviewout(fleanum,pdto));
+		model.addAttribute("paging", pdto);
 		return "fleadetail";
 	}
 	
@@ -72,37 +110,49 @@ public class FleaController {
 	public String hh5(HttpServletRequest request, Model model) {
 		int fleanum=Integer.parseInt(request.getParameter("fleanum"));
 		String id = request.getParameter("id");
-		String fleareview=request.getParameter("fleareview");
+		String review=request.getParameter("review");
+		String posttype = request.getParameter("posttype");
 		FleaService fs = sqlsession.getMapper(FleaService.class);
-		fs.fleareview(fleanum,id,fleareview);
+		fs.fleareview(fleanum,id,review,posttype);
 		//fleaReviewDTO dot = hs.fleareviewout();
 		//model.addAttribute("dot", dot);
-		return "redirect:/";
+		return "redirect:/fleadetail?postnum="+fleanum;
 	}
 	
 	@RequestMapping(value = "flearere")
 	public String hh6(HttpServletRequest request,Model model) {
-		int fleareviewnum=Integer.parseInt(request.getParameter("fleareviewnum"));
+		int reviewnum=Integer.parseInt(request.getParameter("reviewnum"));
 		FleaService fs = sqlsession.getMapper(FleaService.class);
-		FleaReviewDTO dto = fs.flearere(fleareviewnum);
+		FleaReviewDTO dto = fs.flearere(reviewnum);
 		model.addAttribute("dto", dto);
 		return "flearedetail";
 	}
 	
-	@RequestMapping(value = "fleareresave")
-	public String hh7(HttpServletRequest request) {
-		int fleanum=Integer.parseInt(request.getParameter("fleanum"));
-		String id=request.getParameter("id");
-		int fleagroups=Integer.parseInt(request.getParameter("fleagroups"));
-		int fleastep=Integer.parseInt(request.getParameter("fleastep"));
-		int fleaindent=Integer.parseInt(request.getParameter("fleaindent"));
-		String fleareview=request.getParameter("fleareview");
+	//대댓글 DB 저장, 들여쓰기
+	@ResponseBody
+	@RequestMapping(value = "/fleareresave")
+	public String hh7(int reviewnum, String review, HttpServletRequest request) {
 		FleaService fs = sqlsession.getMapper(FleaService.class);
-		fs.fleastepup(fleagroups,fleastep);
-		fleastep++;
-		fleaindent++;
-		fs.fleareinsert(fleanum, id,fleareview,fleagroups,fleastep,fleaindent);
-		return "redirect:/";
+		//기존 댓글의 정보를 가져옴
+		FleaReviewDTO dto = fs.rereout(reviewnum);
+		
+		//기존 댓글의 hownum, id, groups, step, indent 가져옴
+		int fleanum=dto.getPostnum();
+		String id=dto.getId(); //추후에 사용자 아이디 ${id}로 바꿔야 함
+		int groups=dto.getPostgroups();
+		int step=dto.getPoststep();
+		int indent=dto.getPostindent();
+		String posttype=dto.getPosttype();
+		//step, indent 처리, 대댓글 DB 저장
+		fs.fleastepup(groups,step);
+		step++;
+		indent++;
+		fs.fleareinsert(fleanum,id,review,groups,step,indent,posttype);
+		
+		//대댓글 확인
+		int check = fs.rerecheck(review);
+		System.out.println(check);
+		return Integer.toString(check);
 	}
 	
 	@RequestMapping(value = "/fleaupdate")
@@ -138,7 +188,7 @@ public class FleaController {
 			ff.delete();
 		}
 		
-		return "redirect:/";
+		return "redirect:/fleadetail?postnum="+fleanum;
 	}
 	
 	@ResponseBody
@@ -170,5 +220,31 @@ public class FleaController {
 		model.addAttribute("fleavalue", fleavalue);
 		return "fleasearch";
 	}
+	
+	//댓글 수정 ajax
+	@ResponseBody
+	@RequestMapping(value = "/fleareviewupdate")
+	public String hh12(int reviewnum, String review, Model model) {
+		System.out.println(reviewnum);
+		FleaService fs = sqlsession.getMapper(FleaService.class);
+		fs.fleareviewupdate(reviewnum,review);
+		int count = fs.fleareviewcheck(review);
+		String cnt = Integer.toString(count);
+		return cnt;
+	}
+	
+	//댓글 삭제 ajax
+	@ResponseBody
+	@RequestMapping(value = "/fleareviewdelete")
+		public String hh13(int reviewnum, HttpServletResponse response, HttpServletRequest request) {
+		System.out.println(reviewnum);
+		FleaService fs = sqlsession.getMapper(FleaService.class);
+		fs.fleareviewdelete(reviewnum);
+		int count = fs.fleareviewdeletecheck(reviewnum);
+		String bigo="";
+		if (count == 0 ) bigo = "success";
+		else bigo = "fail";
+		return bigo;
+			}
 	
 }

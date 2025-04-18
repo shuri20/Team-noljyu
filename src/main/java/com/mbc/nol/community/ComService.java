@@ -4,21 +4,21 @@ import java.util.ArrayList;
 
 public interface ComService {
 
-	void comsave(String id, String comtitle, String comdetail, String comimg);
+	void comsave(String id, String comtitle, String comdetail, String comimg, String comtype);
 
 	ArrayList<ComDTO> comout();
 
 	ComDTO comdetail(int comnum);
 
-	void comreview(int comnum, String id, String comreview);
+	void comreview(int comnum, String id, String review, String posttype);
 
-	ArrayList<ComReviewDTO> comreviewout(int comnum);
+	ArrayList<ComReviewDTO> comreviewout(int comnum, ComPageDTO pdto);
 
 	ComReviewDTO comrere(int comreviewnum);
 
-	void comstepup(int comgroups, int comstep);
+	void comstepup(int groups, int step);
 
-	void comreinsert(int comnum, String id, String comreview, int comgroups, int comstep, int comindent);
+	void comreinsert(int comnum, String id, String comreview, int comgroups, int comstep, int comindent, String posttype);
 
 	ComDTO comupdateout(int comnum);
 
@@ -34,4 +34,21 @@ public interface ComService {
 
 	ArrayList<ComDTO> comsearch(String comkey, String comvalue);
 
+	int comtotal();
+
+	int comreviewtotal();
+
+	ComReviewDTO rereout(int reviewnum);
+
+	int rerecheck(String review);
+
+	void comreviewupdate(int reviewnum, String review);
+
+	int comreviewcheck(String review);
+
+	void comreviewdelete(int reviewnum);
+
+	int comreviewdeletecheck(int reviewnum);
+
+	
 }

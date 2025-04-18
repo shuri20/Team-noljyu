@@ -9,23 +9,23 @@
 <body>
 
 <form action="fleaupdatesave" method="post" enctype="multipart/form-data">
-<input type="hidden" name="flaenum" value="${dto.fleanum}">
-<input type="hidden" name="fleaoldimg" value="${dto.fleaimg}">
+<input type="hidden" name="fleanum" value="${dto.postnum}">
+<input type="hidden" name="fleaoldimg" value="${dto.postimg}">
 <table border="1" width="400px" align="center" style="margin-bottom: 400px;">
 	
 	<tr>
 		<th>제목</th>
-		<td><input type="text" name="fleatitle" value="${dto.fleatitle}"></td>
+		<td><input type="text" name="fleatitle" value="${dto.posttitle}"></td>
 	</tr>
 	
 	<tr>
 		<th>내용</th>
-		<td><textarea rows="10" cols="70" name="fleadetail">${dto.fleadetail}</textarea> </td>
+		<td><textarea rows="10" cols="70" name="fleadetail">${dto.postdetail}</textarea> </td>
 	</tr>
 	
 	<tr>
 		<th>이미지</th>
-		<td><img alt="" src="./image/${dto.fleaimg}" ><input type="file" name="fleaimg"></td>
+		<td><img alt="" src="./image/${dto.postimg}" ><input type="file" name="fleaimg"></td>
 	</tr>
 	
 	<tr>

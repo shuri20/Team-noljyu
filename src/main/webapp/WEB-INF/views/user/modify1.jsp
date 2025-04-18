@@ -16,13 +16,14 @@ transform:scale(2,2);
 <title>Insert title here</title>
 </head>
 <body>
-	<form action="modifysave" method="post" enctype="multipart/form-data">
+	<form action="modifysave" method="post">
 		<table border="3" width="400px" align="center">
 			<caption>회원정보 수정</caption>
 			
 			<tr>
 			<th>아이디</th>
-			<td><input type="hidden" name="id" value="${dto.id}" readonly="readonly"></td>
+			<td><input type="hidden" name="id" value="${dto.id}">
+            </td>
             </tr>
             
 			<tr>

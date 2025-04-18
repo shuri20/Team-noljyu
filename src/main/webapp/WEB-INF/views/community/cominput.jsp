@@ -9,6 +9,7 @@
 <body>
 
 <form action="comsave" method="post" enctype="multipart/form-data">
+<input type="hidden" name="community" value="community">
 <table border="1" width="400px" align="center">
 	<caption>커뮤니티 글 등록</caption>
 	

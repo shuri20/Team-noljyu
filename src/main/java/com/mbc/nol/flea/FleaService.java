@@ -5,21 +5,19 @@ import java.util.ArrayList;
 
 public interface FleaService {
 
-	void fleainsert(String id, String fleatitle, String fleadetail, String fleaimg);
+	void fleainsert(String id, String fleatitle, String fleadetail, String fleaimg, String fleatype);
 
-	ArrayList<FleaDTO> fleaout();
+	ArrayList<FleaDTO> fleaout(FleaPageDTO dto);
 
 	FleaDTO fleadetailout(int fleanum);
 
-	ArrayList<FleaReviewDTO> fleareviewout(int fleanum);
+	ArrayList<FleaReviewDTO> fleareviewout(int fleanum, FleaPageDTO pdto);
 
-	void fleareview(int fleanum, String id, String fleareview);
+	void fleareview(int fleanum, String id, String review, String posttype);
 
-	FleaReviewDTO flearere(int fleareviewnum);
+	FleaReviewDTO flearere(int reviewnum);
 
-	void fleastepup(int fleagroups, int fleastep);
-
-	void fleareinsert(int fleanum, String id, String fleareview, int fleagroups, int fleastep, int fleaindent);
+	void fleareinsert(int fleanum, String id, String fleareview, int fleagroups, int fleastep, int fleaindent, String posttype);
 
 	FleaDTO fleaupdateout(int fleanum);
 
@@ -34,5 +32,24 @@ public interface FleaService {
 	ArrayList<FleaDTO> fleasearchall(String fleavalue);
 
 	ArrayList<FleaDTO> fleasearch(String fleakey, String fleavalue);
+
+	int fleatotal();
+
+	int fleareviewtotal();
+
+	FleaReviewDTO rereout(int reviewnum);
+
+	void fleastepup(int groups, int step);
+
+	int rerecheck(String review);
+
+
+	void fleareviewupdate(int reviewnum, String review);
+
+	int fleareviewcheck(String review);
+
+	void fleareviewdelete(int reviewnum);
+
+	int fleareviewdeletecheck(int reviewnum);
 
 }

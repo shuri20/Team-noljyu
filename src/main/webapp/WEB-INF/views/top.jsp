@@ -66,15 +66,21 @@ font-style: italic;
         <ul class="nav navbar-nav navbar-right">
         <c:choose>
         <c:when test="${loginstate==true }">
+<<<<<<< HEAD
         <li><a href="mypage"><span class="glyphicon glyphicon-user"></span>${id }마이페이지</a></li>
         <li><a href="logout"><span class="glyphicon glyphicon-log-in"></span> 로그아웃</a></li>
         <li><a href="productcart?id=${id}"><span class="glyphicon glyphicon-shopping-cart"></span> 장바구니</a></li>
+=======
+        <li><a href="mypage?id=${id }"><span class="glyphicon glyphicon-user"></span>${id}님 마이페이지</a></li>
+      <li><a href="logout"><span class="glyphicon glyphicon-log-in"></span> 로그아웃</a></li>
+>>>>>>> fca3e9f0ed5b65f058aedfc58c11158eda81c525
         </c:when>
         <c:otherwise>
       <li><a href="userinput"><span class="glyphicon glyphicon-user"></span> 회원가입</a></li>
       <li><a href="login"><span class="glyphicon glyphicon-log-in"></span> 로그인</a></li>
       </c:otherwise>
       </c:choose>
+      
     </ul>
         <form class="navbar-form navbar-left" action="/action_page.php">
       <div class="form-group">

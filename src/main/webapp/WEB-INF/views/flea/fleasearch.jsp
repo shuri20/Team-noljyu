@@ -16,10 +16,10 @@
 	
 	<c:forEach items="${list}" var="f">
 	<tr>
-		<td>${f.fleanum}</td>
+		<td>${f.postnum}</td>
 		<td>${f.id}</td>
-		<td><a href="fleadetail?fleanum=${f.fleanum }">${f.fleatitle}</a></td>
-		<td>${f.fleacnt}</td>
+		<td><a href="fleadetail?fleanum=${f.postnum }">${f.posttitle}</a></td>
+		<td>${f.postcnt}</td>
 	</tr>
 	</c:forEach>
 </table>
@@ -29,8 +29,8 @@
 	<tr>
 		<th><select name="fleakey">
 			<option value="all">전체</option>
-			<option value="fleatitle">제목</option>
-			<option value="fleadetail">내용</option>
+			<option value="posttitle">제목</option>
+			<option value="postdetail">내용</option>
 			<option value="id">작성자</option>
 		</select>
 		

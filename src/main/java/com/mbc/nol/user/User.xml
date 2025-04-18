@@ -4,50 +4,63 @@
     "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.mbc.nol.user.UserService">
-<select id="idcount" resultType="int">
-select count(*) from "User" where "id"=#{param1}
-</select>
+	<select id="idcount" resultType="int">
+		select count(*) from "User" where "id"=#{param1}
+	</select>
 
-<insert id="insertq">
-insert into "User" values(#{param1},#{param2},#{param3},#{param4},#{param5},#{param6},#{param7})
-</insert>
+	<insert id="insertq">
+		insert into "User"
+		values(#{param1},#{param2},#{param3},#{param4},#{param5},#{param6},#{param7},#{param8})
+	</insert>
 
-<select id="allout" resultType="com.mbc.nol.user.UserDTO">
-select*from "User"
-</select>
+	<select id="allout" resultType="com.mbc.nol.user.UserDTO">
+		select*from "User"
+	</select>
 
-<select id="scearcha" resultType="com.mbc.nol.user.UserDTO">
-select "id","name","address","phone","nickname","myanimal"
-from "User"
-<where>
-  <choose>
-    <when test="cate == 'id'">"id" like '%' || #{scearch} || '%'</when>
-    <when test="cate == 'name'">"name" like '%' || #{scearch} || '%'</when>
-    <when test="cate == 'address'">"address" like '%' || #{scearch} || '%'</when>
-    <when test="cate == 'phone'">"phone" like '%' || #{scearch} || '%'</when>
-    <when test="cate == 'nickname'">"nickname" like '%' || #{scearch} || '%'</when>
-    <when test="cate == 'myanimal'">"myanimal" like '%' || #{scearch} || '%'</when>
-  </choose>
-</where>
-</select>
+	<select id="scearcha" resultType="com.mbc.nol.user.UserDTO">
+		select "id","name","address","phone","nickname","myanimal"
+		from "User"
+		<where>
+			<choose>
+				<when test="cate == 'id'">"id" like '%' || #{scearch} || '%'</when>
+				<when test="cate == 'name'">"name" like '%' || #{scearch} || '%'</when>
+				<when test="cate == 'address'">"address" like '%' || #{scearch} || '%'</when>
+				<when test="cate == 'phone'">"phone" like '%' || #{scearch} || '%'</when>
+				<when test="cate == 'nickname'">"nickname" like '%' || #{scearch} || '%'</when>
+				<when test="cate == 'myanimal'">"myanimal" like '%' || #{scearch} || '%'</when>
+			</choose>
+		</where>
+	</select>
 
-<select id="getuser" parameterType="String" resultType="com.mbc.nol.user.UserDTO">
-    SELECT "id", "pw", "name", "address", "phone", "nickname", "myanimal"
-    FROM "User"
-    WHERE "id" = #{id, jdbcType=VARCHAR}
-</select>
+	<select id="getuser" resultType="com.mbc.nol.user.UserDTO">
+		select * from "User" where "id" = #{param1}
+	</select>
 
-<select id="modify1" resultType="com.mbc.nol.user.UserDTO">
-  select * from "User" where "id"=#{param1, jdbcType=VARCHAR}
-</select>
+	<select id="modify1" resultType="com.mbc.nol.user.UserDTO">
+		select * from "User" where "id"=#{param1}
+	</select>
 
-<update id="modify2">
-update "User"
-set "pw"=#{param2}, "name"=#{param3}, "address"=#{param4},
-    "phone"=#{param5}, "nickname"=#{param6}, "myanimal"=#{param7}
-where "id"=#{param1, jdbcType=VARCHAR}
-</update>
+	<update id="modify2">
+		update "User"
+		set "pw"=#{param2}, "name"=#{param3}, "address"=#{param4},
+		"phone"=#{param5}, "nickname"=#{param6}, "myanimal"=#{param7}
+		where "id"=#{param1}
+	</update>
 
+
+	<select id="delete1" resultType="com.mbc.nol.user.UserDTO">
+		select*from "User" where "id"=#{param1, jdbcType=VARCHAR}
+	</select>
+
+	<delete id="delete2">
+		delete from "User" where "id"=#{param1, jdbcType=VARCHAR}
+	</delete>
+
+	<select id="getAdminPassword" resultType="String">
+		SELECT admin_pass
+		FROM AdminPassword
+		WHERE ROWNUM = 1
+	</select>
 
 
 </mapper>

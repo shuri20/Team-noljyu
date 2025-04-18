@@ -6,66 +6,116 @@
 <mapper namespace="com.mbc.nol.flea.FleaService">
 
 	<insert id="fleainsert">
-		insert into "flea" values(flea_seq.nextval, #{param1}, #{param2}, #{param3}, #{param4}, 0, sysdate)
+		insert into "post" values(ppost_seq.nextval, #{param1}, #{param2}, #{param3}, #{param4}, 0, sysdate,#{param5})
 	</insert>
 	
 	<select id="fleaout" resultType="com.mbc.nol.flea.FleaDTO">
-		select * from "flea" 
+		select * from (
+			select rownum rn, A.* from (
+				select * from "post" where "posttype"='flea'
+			) A
+		) where rn between #{start} and #{end}
 	</select>
 	
 	<select id="fleadetailout" resultType="com.mbc.nol.flea.FleaDTO">
-		select * from "flea" where "fleanum"=#{param1}
+		select * from "post" where "postnum"=#{param1}
 	</select>
 	
 	<insert id="fleareview">
-		insert into "fleareview" values(#{param1}, #{param2}, #{param3}, fleareviewnum_seq.nextval, fleareviewnum_seq.currval, 0, 0)
+		insert into "postreview" values(#{param1}, #{param2}, ppreview_seq.nextval, #{param3}, ppreview_seq.currval, 0, 0,#{param4})
 	</insert>
 
-	<select id="fleareviewout" resultType="com.mbc.nol.flea.FleaDTO">
-		select * from "fleareview" where "fleanum"=#{param1}
+	<select id="fleareviewout" resultType="com.mbc.nol.flea.FleaReviewDTO">
+		select * from (
+			select rownum rn, A.* from (	
+				select * from "postreview" 
+				where "postnum"=#{param1} order by "postgroups" desc, "poststep" asc
+			) A
+		) where rn between #{param2.start} and #{param2.end}
 	</select>
 	
-	<select id="flearere" resultType="com.mbc.nol.flea.FleaDTO">
-		select * from "fleareview" where "fleareviewnum"=#{param1}
+	<select id="flearere" resultType="com.mbc.nol.flea.FleaReviewDTO">
+		select * from "postreview" where "postreviewnum"=#{param1}
 	</select>
 	
 	<update id="fleastepup">
-		update "fleareview" set "fleastep"="fleastep"+1 where "fleagroups"=#{param1} and "fleastep">#{param2}
+		update "postreview" set "poststep"="poststep"+1 where "postgroups"=#{param1} and "poststep">#{param2}
 	</update>
 	
 	<insert id="fleareinsert">
-		insert into "fleareview" values(#{param1}, #{param2}, #{param3}, fleareviewnum_seq.nextval, #{param4}, #{param5}, #{param6})
+		insert into "postreview" values(#{param1}, #{param2}, ppreview_seq.nextval, #{param3}, #{param4}, #{param5}, #{param6},#{param7})
 	</insert>
 	
 	<select id="fleaupdateout" resultType="com.mbc.nol.flea.FleaDTO">
-		select * from "flea" where "fleanum"=#{param1}
+		select * from "post" where "postnum"=#{param1}
 	</select>
 	
 	<update id="fleaupdate">
-		update "flea" set "fleatitle"=#{param2}, "fleadetail"=#{param3} where "fleanum"=#{param1}
+		update "post" set "posttitle"=#{param2}, "postdetail"=#{param3} where "postnum"=#{param1}
 	</update>
 	
 	<update id="fleaupdateimg">
-		update "flea" set "fleatitle"=#{param2}, "fleadetail"=#{param3}, "fleaimg"=#{param4} where "fleanum"=#{param1}
+		update "post" set "posttitle"=#{param2}, "postdetail"=#{param3}, "postimg"=#{param4} where "postnum"=#{param1}
 	</update>
 	
 	<delete id="fleadelete">
-		delete from "flea" where "fleanum"=#{param1}
+		delete from "post" where "postnum"=#{param1}
 	</delete>
 	
 	<select id="fleadeletecheck" resultType="int">
-		select count(*) from "flea" where "fleanum"=#{param1}
+		select count(*) from "post" where "postnum"=#{param1}
 	</select>
 	
 	<select id="fleasearch" resultType="com.mbc.nol.flea.FleaDTO">
-		select * from "flea" where "${param1}" like '%' || #{param2} || '%'
+		select * from "post" where "posttype"='flea' and"${param1}" like '%' || #{param2} || '%'
 	</select>
 	
 	<select id="fleasearchall" resultType="com.mbc.nol.flea.FleaDTO">
-		select * from "flea" 
-		where "id" like '%' || #{param1} || '%'
-		   or "fleatitle" like '%' || #{param1} || '%'
-		   or "fleadetail" like '%' || #{param1} || '%'
+		select * from "post" 
+		where "posttype"='flea' and
+		"id" like '%' || #{param1} || '%'
+		   or "posttitle" like '%' || #{param1} || '%'
+		   or "postdetail" like '%' || #{param1} || '%'
+	</select>
+	
+	<!-- 게시글 페이징 처리 (전체 레코드 수) -->
+	<select id="fleatotal" resultType="int">
+		select count(*) from "post" where "posttype"='flea'
+	</select>
+	
+	<!-- 댓글 페이징 처리 (전체 레코드 수) -->
+	<select id="fleareviewtotal" resultType="int">
+		select count(*) from "postreview" where "posttype"='flea'
+	</select>
+	
+	<!-- 대댓글 입력 : 기존 정보를 가져옴 -->
+	<select id="rereout" resultType="com.mbc.nol.flea.FleaReviewDTO">
+		select * from "postreview" where "postreviewnum"=#{param1}
+	</select>
+	
+	<!-- 대댓글 입력 ajax 확인 -->
+	<select id="rerecheck" resultType="int">
+		select count(*) from "postreview" where "postreview"=#{param1}
+	</select>
+	
+	<!-- 댓글 수정 -->
+	<update id="fleareviewupdate">
+		update "postreview" set "postreview"=#{param2} where "postreviewnum"=#{param1}
+	</update>
+	
+	<!-- 댓글 수정 ajax 확인 -->
+	<select id="howreviewcheck" resultType="int">
+		select count(*) from "postreview" where "postreview"=#{param1}
+	</select>
+	
+	<!-- 댓글 삭제 -->
+	<delete id="howreviewdelete">
+		delete from "postreview" where "postreviewnum"=#{param1}
+	</delete>
+	
+	<!-- 댓글 삭제 ajax 확인 -->
+	<select id="howreviewdeletecheck" resultType="int">
+		select count(*) from "postreview" where "postreviewnum"=#{param1}
 	</select>
 	
 </mapper>

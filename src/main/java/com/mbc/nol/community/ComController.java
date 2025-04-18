@@ -17,6 +17,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import com.mbc.nol.how.HowPageDTO;
+import com.mbc.nol.how.HowReviewDTO;
+import com.mbc.nol.how.HowService;
+
 
 
 @Controller
@@ -24,7 +28,7 @@ public class ComController {
 
 	@Autowired
 	SqlSession sqlsession;
-	String path="C:\\Users\\320-22\\Downloads\\noljyu\\src\\main\\webapp\\image";
+	String path="C:\\Noljyu\\Team-noljyu\\src\\main\\webapp\\image";
 	@RequestMapping(value = "/cominput")
 	public String cominput() {
 		String path = "";
@@ -36,13 +40,14 @@ public class ComController {
 		String id = request.getParameter("id");
 		String comtitle  = request.getParameter("comtitle");
 		String comdetail = request.getParameter("comdetail");
+		String comtype = request.getParameter("community");
 		MultipartFile mf = request.getFile("comimg");
 		String comimg = mf.getOriginalFilename();
 		UUID uu = UUID.randomUUID();
 		comimg = uu+"-"+comimg;
 		//mf.transferTo(new File(path+"\\"+comimg));
 		ComService cs = sqlsession.getMapper(ComService.class);
-		cs.comsave(id, comtitle, comdetail, comimg);
+		cs.comsave(id, comtitle, comdetail, comimg,comtype);
 		return "redirect:/";
 	}
 	
@@ -55,13 +60,29 @@ public class ComController {
 	}
 	
 	@RequestMapping(value = "/comdetail")
-	public String comdetail(HttpServletRequest request, Model model) {
-		int comnum = Integer.parseInt(request.getParameter("comnum"));
+	public String comdetail(HttpServletRequest request , ComPageDTO pdto, Model model) {
+		String nowPage=request.getParameter("nowPage");
+        String cntPerPage=request.getParameter("cntPerPage");
+		int comnum = Integer.parseInt(request.getParameter("postnum"));
 		ComService cs = sqlsession.getMapper(ComService.class);
+		//전체 레코드 수 구하기
+		int total=cs.comreviewtotal();
+		System.out.println(total);
+		if(nowPage==null && cntPerPage == null) {
+		   nowPage="1";
+		   cntPerPage="5";
+		}
+		else if(nowPage==null) {
+		   nowPage="1";
+		}
+		else if(cntPerPage==null) {
+		   cntPerPage="5";
+		}
+		pdto = new ComPageDTO(Integer.parseInt(nowPage), total, Integer.parseInt(cntPerPage));
 		ComDTO dto = cs.comdetail(comnum);
-		ArrayList<ComReviewDTO> list2 = cs.comreviewout(comnum);
 		model.addAttribute("dto", dto);
-		model.addAttribute("list2", list2);
+		model.addAttribute("list", cs.comreviewout(comnum,pdto));
+		model.addAttribute("paging", pdto);
 		
 		return "comdetail";
 	}
@@ -70,35 +91,48 @@ public class ComController {
 	public String comreviewsave(HttpServletRequest request) {
 		int comnum = Integer.parseInt(request.getParameter("comnum"));
 		String id = request.getParameter("id");
-		String comreview = request.getParameter("comreview");
+		String review = request.getParameter("review");
+		String posttype=request.getParameter("posttype");
 		ComService cs = sqlsession.getMapper(ComService.class);
-		cs.comreview(comnum, id, comreview);
-		return "redirect:/";
+		cs.comreview(comnum, id, review, posttype);
+		return "redirect:/comdetaul?postnum="+comnum;
 	}
 	
 	@RequestMapping(value = "comrere")
 	public String comrere(HttpServletRequest request, Model model) {
-		int comreviewnum = Integer.parseInt(request.getParameter("comreviewnum"));
+		int comreviewnum = Integer.parseInt(request.getParameter("reviewnum"));
 		ComService cs = sqlsession.getMapper(ComService.class);
 		ComReviewDTO dto = cs.comrere(comreviewnum);
 		model.addAttribute("dto", dto);
 		return "comredetail";
 	}
+
 	
-	@RequestMapping(value = "comreresave")
-	public String comreresave(HttpServletRequest request) {
-		int comnum=Integer.parseInt(request.getParameter("comnum"));
-		String id = request.getParameter("id");
-		int comgroups = Integer.parseInt(request.getParameter("comgroups"));
-		int comstep = Integer.parseInt(request.getParameter("comstep"));
-		int comindent = Integer.parseInt(request.getParameter("comindent"));
-		String comreview = request.getParameter("comreview");
+	//대댓글 DB 저장, 들여쓰기
+	@ResponseBody
+	@RequestMapping(value = "/comreresave")
+	public String hh7(int reviewnum, String review, HttpServletRequest request) {
 		ComService cs = sqlsession.getMapper(ComService.class);
-		cs.comstepup(comgroups,comstep);
-		comstep++;
-		comindent++;
-		cs.comreinsert(comnum,id,comreview,comgroups,comstep,comindent);
-		return "redirect:/";
+		//기존 댓글의 정보를 가져옴
+		ComReviewDTO dto = cs.rereout(reviewnum);
+		
+		//기존 댓글의 hownum, id, groups, step, indent 가져옴
+		int comnum=dto.getPostnum();
+		String id=dto.getId(); //추후에 사용자 아이디 ${id}로 바꿔야 함
+		int groups=dto.getPostgroups();
+		int step=dto.getPoststep();
+		int indent=dto.getPostindent();
+		String posttype=dto.getPosttype();
+		//step, indent 처리, 대댓글 DB 저장
+		cs.comstepup(groups,step);
+		step++;
+		indent++;
+		cs.comreinsert(comnum,id,review,groups,step,indent,posttype);
+		
+		//대댓글 확인
+		int check = cs.rerecheck(review);
+		System.out.println(check);
+		return Integer.toString(check);
 	}
 	
 	@RequestMapping(value = "/comupdate")
@@ -134,7 +168,7 @@ public class ComController {
 			ff.delete();
 		}
 		
-		return "redirect:/";
+		return "redirect:/comdetail?postnum="+comnum;
 	}
 	
 	@ResponseBody
@@ -166,5 +200,31 @@ public class ComController {
 		model.addAttribute("comvalue", comvalue);
 		return "comsearch";
 	}
+	
+	//댓글 수정 ajax
+		@ResponseBody
+		@RequestMapping(value = "/comreviewupdate")
+		public String hh12(int reviewnum, String review, Model model) {
+			System.out.println(reviewnum);
+			ComService cs = sqlsession.getMapper(ComService.class);
+			cs.comreviewupdate(reviewnum,review);
+			int count = cs.comreviewcheck(review);
+			String cnt = Integer.toString(count);
+			return cnt;
+		}
+		
+		//댓글 삭제 ajax
+			@ResponseBody
+			@RequestMapping(value = "/comreviewdelete")
+			public String hh13(int reviewnum, HttpServletResponse response, HttpServletRequest request) {
+				System.out.println(reviewnum);
+				ComService cs = sqlsession.getMapper(ComService.class);
+				cs.comreviewdelete(reviewnum);
+				int count = cs.comreviewdeletecheck(reviewnum);
+				String bigo="";
+				if (count == 0 ) bigo = "success";
+				else bigo = "fail";
+				return bigo;
+			}
 	
 }//controller

@@ -8,6 +8,7 @@
 </head>
 <body>
 <form action="fleasave" method="post" enctype="multipart/form-data">
+<input type="hidden" name="flea" value="flea">
 <table border="1" width="400px" align="center">
 	<caption>플리마켓 글 등록</caption>
 	

@@ -1,19 +1,19 @@
 package com.mbc.nol.community;
 
 public class ComDTO {
-	int comnum;
-	String id, comtitle, comdetail, comimg;
-	int comcnt;
-	String comdate;
+	int postnum;
+	String id, posttitle, postdetail, postimg;
+	int postcnt;
+	String postdate, posttype;
 	public ComDTO() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	public int getComnum() {
-		return comnum;
+	public int getPostnum() {
+		return postnum;
 	}
-	public void setComnum(int comnum) {
-		this.comnum = comnum;
+	public void setPostnum(int postnum) {
+		this.postnum = postnum;
 	}
 	public String getId() {
 		return id;
@@ -21,36 +21,43 @@ public class ComDTO {
 	public void setId(String id) {
 		this.id = id;
 	}
-	public String getComtitle() {
-		return comtitle;
+	public String getPosttitle() {
+		return posttitle;
 	}
-	public void setComtitle(String comtitle) {
-		this.comtitle = comtitle;
+	public void setPosttitle(String posttitle) {
+		this.posttitle = posttitle;
 	}
-	public String getComdetail() {
-		return comdetail;
+	public String getPostdetail() {
+		return postdetail;
 	}
-	public void setComdetail(String comdetail) {
-		this.comdetail = comdetail;
+	public void setPostdetail(String postdetail) {
+		this.postdetail = postdetail;
 	}
-	public String getComimg() {
-		return comimg;
+	public String getPostimg() {
+		return postimg;
 	}
-	public void setComimg(String comimg) {
-		this.comimg = comimg;
+	public void setPostimg(String postimg) {
+		this.postimg = postimg;
 	}
-	public int getComcnt() {
-		return comcnt;
+	public int getPostcnt() {
+		return postcnt;
 	}
-	public void setComcnt(int comcnt) {
-		this.comcnt = comcnt;
+	public void setPostcnt(int postcnt) {
+		this.postcnt = postcnt;
 	}
-	public String getComdate() {
-		return comdate;
+	public String getPostdate() {
+		return postdate;
 	}
-	public void setComdate(String comdate) {
-		this.comdate = comdate;
+	public void setPostdate(String postdate) {
+		this.postdate = postdate;
 	}
+	public String getPosttype() {
+		return posttype;
+	}
+	public void setPosttype(String posttype) {
+		this.posttype = posttype;
+	}
+	
 	
 	
 }

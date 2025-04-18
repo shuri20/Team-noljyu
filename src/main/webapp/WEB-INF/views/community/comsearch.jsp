@@ -15,16 +15,16 @@
 	<th>${com.id }</th>
 </tr>
 <tr>
-	<th><a href="comdetail?comnum=${com.comnum}">${com.comtitle }</a></th>
+	<th><a href="comdetail?comnum=${com.postnum}">${com.posttitle }</a></th>
 </tr>
 <tr>
-	<th><img src = "${com.comimg }" width="600px" height="500px"></th>
+	<th><img src = "${com.postimg }" width="600px" height="500px"></th>
 </tr>
 <tr>
-	<th>${com.comdetail }</th>
+	<th>${com.postdetail }</th>
 </tr>
 <tr>
-	<th><button type="button" value="${com.comcnt }">♡</button></th>
+	<th><button type="button" value="${com.postcnt }">♡</button></th>
 </tr>
 </table>
 </c:forEach>
@@ -34,8 +34,8 @@
 	<tr>
 		<th><select name="comkey">
 			<option value="all">전체</option>
-			<option value="comtitle">제목</option>
-			<option value="comdetail">내용</option>
+			<option value="posttitle">제목</option>
+			<option value="postdetail">내용</option>
 			<option value="id">작성자</option>
 		</select>
 		

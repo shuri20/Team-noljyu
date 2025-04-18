@@ -5,67 +5,110 @@
     
 <mapper namespace = "com.mbc.nol.community.ComService">
 	<insert id="comsave">
-		insert into "community" values(com_seq.nextval,#{param1},#{param2},#{param3},#{param4},0,sysdate)	
+		insert into "post" values(ppost_seq.nextval,#{param1},#{param2},#{param3},#{param4},0,sysdate, #{param5})	
 	</insert>
 	
 	<select id="comout" resultType="com.mbc.nol.community.ComDTO">
-		select * from "community"
+		select * from "post" where "posttype"='community'
 	</select>
-		
 	<select id="comdetail" resultType="com.mbc.nol.community.ComDTO">
-		select * from "community" where "comnum" = #{param1}
+		select * from "post" where "postnum" = #{param1}
 	</select>
 	
 	<insert id="comreview">
-		insert into "communityreview" values(comreviewnum_seq.nextval,#{param1},#{param2},#{param3},comreviewnum_seq.currval,0,0)
-	</insert>	
+insert into "postreview" values(#{param1}, #{param2}, ppreview_seq.nextval, #{param3}, ppreview_seq.currval, 0, 0,#{param4})	</insert>	
 	
 	<select id="comreviewout" resultType="com.mbc.nol.community.ComReviewDTO">
-		select * from "communityreview" where "comnum"=#{param1} order by "comgroups" desc, "comstep" asc
+		select * from (
+			select rownum rn, A.* from (	
+				select * from "postreview" 
+				where "postnum"=#{param1} order by "postgroups" desc, "poststep" asc
+			) A
+		) where rn between #{param2.start} and #{param2.end}
 	</select>
 	
 	<select id="comrere" resultType="com.mbc.nol.community.ComReviewDTO">
-		select * from "communityreview" where "comreviewnum"=#{param1}
+		select * from "postreview" where "postreviewnum"=#{param1}
 	</select>
 	
 	<update id="comstepup">
-		update "communityreview" set 	"comstep"="comstep"+1 where "comgroups"=#{param1} and "comstep">#{param2}
+		update "postreview" set "poststep"="poststep"+1 where "postgroups"=#{param1} and "poststep">#{param2}
 	</update>
 	
 	<insert id="comreinsert">
-		insert into "communityreview" values(comreviewnum_seq.nextval,#{param1},#{param2},#{param3},#{param4},#{param5},#{param6})
+		insert into "postreview" values(#{param1}, #{param2}, ppreview_seq.nextval, #{param3}, #{param4}, #{param5}, #{param6},#{param7})
 	</insert>
 	
-	<select id="comupdateout" resultType="com.mbc.nol.community.ComReviewDTO">
-		select * from "community" where "comnum"=#{param1}
+	<select id="comupdateout" resultType="com.mbc.nol.community.ComDTO">
+		select * from "post" where "postnum"=#{param1}
 	</select>
 	
 	<update id="comupdate">
-		update "community" set "comtitle"=#{param2}, "comdetail"=#{param3} where "comnum"=#{param1}
+		update "post" set "posttitle"=#{param2}, "postdetail"=#{param3} where "postnum"=#{param1}
 	</update>
 	
 	<update id="comupdateimg">
-		update "community" set "comtitle"=#{param2}, "comdetail"=#{param3}, "comimg"=#{param4} where "comnum"=#{param1}
+		update "post" set "posttitle"=#{param2}, "postdetail"=#{param3}, "postimg"=#{param4} where "postnum"=#{param1}
 	</update>
 	
 	<delete id="comdelete">
-		delete from "community" where "comnum"=#{param1}
+		delete from "post" where "postnum"=#{param1}
 	</delete>
 	
 	<select id="comdeletecheck" resultType="int">
-		select count(*) from "community" where "comnum"=#{param1}
+		select count(*) from "post" where "postnum"=#{param1}
 	</select>
 	
 	<select id="comsearch" resultType="com.mbc.nol.community.ComDTO">
-		select * from "community" where "${param1}" like '%' || #{param2} || '%'
+		select * from "post" where "posttype" = 'community' and "${param1}" like '%' || #{param2} || '%'
 	</select>
 	
 	<select id="comsearchall" resultType="com.mbc.nol.community.ComDTO">
-		select * from "community" 
-		where "id" like '%' || #{param1} || '%'
-		   or "comtitle" like '%' || #{param1} || '%'
-		   or "comdetail" like '%' || #{param1} || '%'
+		select * from "post" 
+		where "posttype" = 'community'
+		and "id" like '%' || #{param1} || '%'
+		   or "posttitle" like '%' || #{param1} || '%'
+		   or "postdetail" like '%' || #{param1} || '%'
 	</select>
 	
+	<!-- 게시글 페이징 처리 (전체 레코드 수) -->
+	<select id="comtotal" resultType="int">
+		select count(*) from "post" where "posttype"='community'
+	</select>
 	
-</mapper>    
+	<!-- 댓글 페이징 처리 (전체 레코드 수) -->
+	<select id="comreviewtotal" resultType="int">
+		select count(*) from "postreview" where "posttype"='community'
+	</select>
+	
+	<!-- 대댓글 입력 : 기존 정보를 가져옴 -->
+	<select id="rereout" resultType="com.mbc.nol.community.ComReviewDTO">
+		select * from "postreview" where "postreviewnum"=#{param1}
+	</select>
+
+	<!-- 대댓글 입력 ajax 확인 -->
+	<select id="rerecheck" resultType="int">
+		select count(*) from "postreview" where "postreview"=#{param1}
+	</select>
+	
+	<!-- 댓글 수정 -->
+	<update id="comreviewupdate">
+		update "postreview" set "postreview"=#{param2} where "postreviewnum"=#{param1}
+	</update>
+	
+	<!-- 댓글 수정 ajax 확인 -->
+	<select id="comreviewcheck" resultType="int">
+		select count(*) from "postreview" where "postreview"=#{param1}
+	</select>
+	
+	<!-- 댓글 삭제 -->
+	<delete id="comreviewdelete">
+		delete from "postreview" where "postreviewnum"=#{param1}
+	</delete>
+	
+	<!-- 댓글 삭제 ajax 확인 -->
+	<select id="comreviewdeletecheck" resultType="int">
+		select count(*) from "postreview" where "postreviewnum"=#{param1}
+	</select>
+	
+</mapper> 

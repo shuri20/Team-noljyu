@@ -15,10 +15,10 @@
 	
 	<c:forEach items="${list}" var="h">
 	<tr>
-		<td>${h.hownum}</td>
+		<td>${h.postnum}</td>
 		<td>${h.id}</td>
-		<td><a href="howdetail?hownum=${h.hownum }">${h.howtitle}</a></td>
-		<td>${h.howcnt}</td>
+		<td><a href="howdetail?postnum=${h.postnum }">${h.posttitle}</a></td>
+		<td>${h.postcnt}</td>
 	</tr>
 	</c:forEach>
 	
@@ -52,8 +52,8 @@
 	<tr>
 		<th><select name="howkey">
 			<option value="all">전체</option>
-			<option value="howtitle">제목</option>
-			<option value="howdetail">내용</option>
+			<option value="posttitle">제목</option>
+			<option value="postdetail">내용</option>
 			<option value="id">작성자</option>
 		</select>
 		

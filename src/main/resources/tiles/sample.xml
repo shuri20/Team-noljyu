@@ -15,7 +15,6 @@
       <put-attribute name="body" value="/WEB-INF/views/main.jsp"/>
    </definition>
    
-   
    <!-- 회원가입 -->
    <definition name="userinput" extends="baseLayout">
       <put-attribute name="title" value="메인화면"/>
@@ -35,6 +34,31 @@
    <definition name="mypageout" extends="baseLayout">
       <put-attribute name="title" value="메인화면"/>
       <put-attribute name="body" value="/WEB-INF/views/user/mypageout.jsp"/>
+   </definition>
+   
+   <!-- 회원정보 검색창 -->
+     <definition name="scearch" extends="baseLayout">
+      <put-attribute name="title" value="메인화면"/>
+      <put-attribute name="body" value="/WEB-INF/views/user/scearch.jsp"/>
+   </definition>
+   
+   <!-- 회원정보 검색출력 -->
+     <definition name="scearchout" extends="baseLayout">
+      <put-attribute name="title" value="메인화면"/>
+      <put-attribute name="body" value="/WEB-INF/views/user/scearchout.jsp"/>
+   </definition>
+
+   
+    <!-- 마이페이지 회원정보수정 -->
+     <definition name="modify1" extends="baseLayout">
+      <put-attribute name="title" value="메인화면"/>
+      <put-attribute name="body" value="/WEB-INF/views/user/modify1.jsp"/>
+   </definition>
+   
+      <!-- 마이페이지 회원탈퇴 -->
+     <definition name="deleteview" extends="baseLayout">
+      <put-attribute name="title" value="메인화면"/>
+      <put-attribute name="body" value="/WEB-INF/views/user/deleteview.jsp"/>
    </definition>
    
    <!-- 상품등록 -->

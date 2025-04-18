@@ -2,8 +2,30 @@ package com.mbc.nol.user;
 
 public class UserDTO {
 String id,pw,name,address,phone,nickname,myanimal;
+String admin;
 
 public UserDTO() {}
+
+public String getAdmin() {
+	return admin;
+}
+
+public void setAdmin(String admin) {
+	this.admin = admin;
+}
+
+public UserDTO(String id, String pw, String name, String address, String phone, String nickname, String myanimal,
+		String admin) {
+	super();
+	this.id = id;
+	this.pw = pw;
+	this.name = name;
+	this.address = address;
+	this.phone = phone;
+	this.nickname = nickname;
+	this.myanimal = myanimal;
+	this.admin = admin;
+}
 
 public UserDTO(String id, String pw, String name, String address, String phone, String nickname, String myanimal) {
 	super();

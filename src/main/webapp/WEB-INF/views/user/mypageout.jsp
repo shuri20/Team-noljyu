@@ -39,8 +39,8 @@ img:hover {
 			<td>${myinfo.myanimal}</td>
 
 			<td>
-			<a href="modify1?num=${my.bnumber}">회원정보 수정&emsp;</a> 
-			<a href="delete1?num=${my.bnumber}">회원탈퇴</a></td>
+			<a href="modify1?id=${myinfo.id}">회원정보 수정&emsp;</a> 
+			<a href="delete1?id=${myinfo.id}">회원탈퇴</a></td>
 
 		</tr>
 	</table>

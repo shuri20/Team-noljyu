@@ -24,8 +24,6 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 
-
-
 @Controller
 public class UserController {
 @Autowired
@@ -52,7 +50,7 @@ public String mm2(String id) {
 return bigo;
 }
 @RequestMapping(value = "/usersave")
-public String mm3(UserDTO dto) {
+public String mm3(UserDTO dto,HttpServletRequest request,Model model) {
 	String id=dto.getId();
 	String pw=dto.getPw();
 	String name=dto.getName();
@@ -60,11 +58,23 @@ public String mm3(UserDTO dto) {
 	String phone=dto.getPhone();
 	String nickname=dto.getNickname();
 	String myanimal=dto.getMyanimal();
-	//String admin=dto.getAdmin();
+	String admin=dto.getAdmin();
+	String inputAdminPass = request.getParameter("adminPass");
 	PasswordEncoder pe = new BCryptPasswordEncoder();
 	pw=pe.encode(pw);
+	
 	UserService us=sqlSession.getMapper(UserService.class);
-			us.insertq(id,pw,name,address,phone,nickname,myanimal);	
+	
+	 // 관리자 등록 요청 시 관리자용 비밀번호 확인
+    if ("admin".equals(admin)) {
+        String savedAdminPass = us.getAdminPassword();
+        if (!pe.matches(inputAdminPass, savedAdminPass)) {
+            model.addAttribute("msg", "관리자용 비밀번호가 일치하지 않습니다.");
+            return "userinput"; // 다시 가입 페이지로
+        }
+    }
+    
+			us.insertq(id,pw,name,address,phone,nickname,myanimal,admin);	
 	return "redirect:/main";
 }
 @RequestMapping(value = "/userout")
@@ -84,7 +94,7 @@ public ModelAndView mm4(Model model,HttpServletRequest request,HttpServletRespon
 	{
 		response.setContentType("text/html;charset=utf-8");
 		PrintWriter pww= response.getWriter();
-		pww.print("<script>alert('로그인후 사용하세요')</script>");
+		pww.print("<script>alert('濡쒓렇�씤�썑 �궗�슜�븯�꽭�슂')</script>");
 		pww.print("<script>location.href='login'</script>");
 		pww.close();
 		ModelAndView mav=new ModelAndView();
@@ -108,26 +118,12 @@ public ModelAndView mm4(Model model,HttpServletRequest request,HttpServletRespon
 		return"scearchout";
 	}
 	@RequestMapping(value = "/mypage")
-	public ModelAndView mypage(Model model, HttpServletRequest request, HttpServletResponse response) throws IOException {
-	    HttpSession hs = request.getSession();
-	    Boolean flag = (Boolean) hs.getAttribute("loginstate");
-
-	    if (flag != null && flag) {
-	        String loginId = (String) hs.getAttribute("id"); 
-	        UserService us = sqlSession.getMapper(UserService.class);
-	        UserDTO myinfo = us.getuser(loginId);
-
-	        ModelAndView mav = new ModelAndView();
-	        mav.addObject("myinfo", myinfo);
-	        mav.setViewName("mypageout");
-	        return mav;
-	    } else {
-	        response.setContentType("text/html;charset=utf-8");
-	        PrintWriter pww = response.getWriter();
-	        pww.print("<script>alert('로그인후 사용하세요'); location.href='login';</script>");
-	        pww.close();
-	        return null;
-	    }
+	public String mypage(Model model, HttpServletRequest request) {
+	    String loginId = request.getParameter("id");
+	    UserService us = sqlSession.getMapper(UserService.class);
+	    UserDTO myinfo = us.getuser(loginId);
+	    model.addAttribute("myinfo", myinfo);
+	    return "mypageout";
 	}
 	    @RequestMapping(value = "/modify1")
 		public String mo1(HttpServletRequest request,Model model) {
@@ -138,22 +134,49 @@ public ModelAndView mm4(Model model,HttpServletRequest request,HttpServletRespon
 			return"modify1";
 	    }
 
-		@RequestMapping(value = "/modifysave", method = RequestMethod.POST)
-		public String mo2(HttpServletRequest mul) throws IllegalStateException, IOException {
-			
-			String id=mul.getParameter("id");
-			String pw=mul.getParameter("pw");
-			PasswordEncoder pe = new BCryptPasswordEncoder();
-			pw = pe.encode(pw);
-			String name=mul.getParameter("name");
-			String address=mul.getParameter("address");
-			String phone=mul.getParameter("phone");
-			String nickname=mul.getParameter("nickname");
-			String myanimal=mul.getParameter("myanimal");
-			
-			
-			UserService us = sqlSession.getMapper(UserService.class);
-			us.modify2(id,pw,name,address,phone,nickname,myanimal);
-			return "redirect:/";
+	    @RequestMapping(value = "/modifysave", method = RequestMethod.POST)
+	    public String mo2(HttpServletRequest mul){
+	    	String id = mul.getParameter("id");
+	        String pw = mul.getParameter("pw");
+	        PasswordEncoder pe = new BCryptPasswordEncoder();
+	        pw = pe.encode(pw);
+	        String name = mul.getParameter("name");
+	        String address = mul.getParameter("address");
+	        String phone = mul.getParameter("phone");
+	        String nickname = mul.getParameter("nickname");
+	        String myanimal = mul.getParameter("myanimal");
+
+	        UserService us = sqlSession.getMapper(UserService.class);
+	        us.modify2(id, pw, name, address, phone, nickname, myanimal);
+
+	        return "redirect:/main";
+	    }
+		@RequestMapping(value = "/delete1")
+		public String del(HttpSession session, Model model) {
+		    String id = (String) session.getAttribute("id");
+		    if (id == null) {
+		        return "redirect:/login"; // 로그인 안 되어 있으면 로그인 페이지로
+		    }
+
+		    UserService us = sqlSession.getMapper(UserService.class);
+		    UserDTO dto = us.delete1(id);
+		    model.addAttribute("dto", dto);
+
+		    return "deleteview"; // 탈퇴 확인 페이지로 이동
 		}
-	}
+
+		@RequestMapping(value = "/delete2", method = RequestMethod.POST)
+		public String del2(HttpSession session) {
+		    String id = (String) session.getAttribute("id");
+		    if (id == null) {
+		        return "redirect:/login"; // 로그인 상태 확인
+		    }
+
+		    UserService us = sqlSession.getMapper(UserService.class);
+		    us.delete2(id); // DB에서 유저 삭제
+
+		    session.invalidate(); // 세션 무효화
+
+		    return "redirect:/main"; // 메인으로 이동
+		}
+}

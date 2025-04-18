@@ -8,23 +8,23 @@
 </head>
 <body>
 <form action="comupdatesave" method="post" enctype="multipart/form-data">
-<input type="hidden" name="comnum" value="${dto.comnum}">
-<input type="hidden" name="comoldimg" value="${dto.comimg}">
+<input type="hidden" name="comnum" value="${dto.postnum}">
+<input type="hidden" name="comoldimg" value="${dto.postimg}">
 <table border="1" width="400px" align="center" style="margin-bottom: 400px;">
 	
 	<tr>
 		<th>제목</th>
-		<td><input type="text" name="comtitle" value="${dto.comtitle}"></td>
+		<td><input type="text" name="comtitle" value="${dto.posttitle}"></td>
 	</tr>
 	
 	<tr>
 		<th>내용</th>
-		<td><textarea rows="10" cols="70" name="comdetail">${dto.comdetail}</textarea> </td>
+		<td><textarea rows="10" cols="70" name="comdetail">${dto.postdetail}</textarea> </td>
 	</tr>
 	
 	<tr>
 		<th>이미지</th>
-		<td><img alt="" src="./image/${dto.comimg}" ><input type="file" name="comimg"></td>
+		<td><img alt="" src="./image/${dto.postimg}" ><input type="file" name="comimg"></td>
 	</tr>
 	
 	<tr>

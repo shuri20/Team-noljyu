@@ -3,19 +3,19 @@ package com.mbc.nol.flea;
 import java.sql.Date;
 
 public class FleaDTO {
-	int fleanum;
-	String id,fleatitle,fleadetail,fleaimg;
-	int fleacnt;
-	Date fleadate;
+	int postnum;
+	String id, posttitle, postdetail, postimg;
+	int postcnt;
+	String postdate, posttype;
 	public FleaDTO() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	public int getFleanum() {
-		return fleanum;
+	public int getPostnum() {
+		return postnum;
 	}
-	public void setFleanum(int fleanum) {
-		this.fleanum = fleanum;
+	public void setPostnum(int postnum) {
+		this.postnum = postnum;
 	}
 	public String getId() {
 		return id;
@@ -23,36 +23,43 @@ public class FleaDTO {
 	public void setId(String id) {
 		this.id = id;
 	}
-	public String getFleatitle() {
-		return fleatitle;
+	public String getPosttitle() {
+		return posttitle;
 	}
-	public void setFleatitle(String fleatitle) {
-		this.fleatitle = fleatitle;
+	public void setPosttitle(String posttitle) {
+		this.posttitle = posttitle;
 	}
-	public String getFleadetail() {
-		return fleadetail;
+	public String getPostdetail() {
+		return postdetail;
 	}
-	public void setFleadetail(String fleadetail) {
-		this.fleadetail = fleadetail;
+	public void setPostdetail(String postdetail) {
+		this.postdetail = postdetail;
 	}
-	public String getFleaimg() {
-		return fleaimg;
+	public String getPostimg() {
+		return postimg;
 	}
-	public void setFleaimg(String fleaimg) {
-		this.fleaimg = fleaimg;
+	public void setPostimg(String postimg) {
+		this.postimg = postimg;
 	}
-	public int getFleacnt() {
-		return fleacnt;
+	public int getPostcnt() {
+		return postcnt;
 	}
-	public void setFleacnt(int fleacnt) {
-		this.fleacnt = fleacnt;
+	public void setPostcnt(int postcnt) {
+		this.postcnt = postcnt;
 	}
-	public Date getFleadate() {
-		return fleadate;
+	public String getPostdate() {
+		return postdate;
 	}
-	public void setFleadate(Date fleadate) {
-		this.fleadate = fleadate;
+	public void setPostdate(String postdate) {
+		this.postdate = postdate;
 	}
+	public String getPosttype() {
+		return posttype;
+	}
+	public void setPosttype(String posttype) {
+		this.posttype = posttype;
+	}
+
 	
 	
 }

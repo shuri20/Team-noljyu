@@ -38,6 +38,19 @@ img:hover {
 	});
 </script>
 
+<script>
+$(document).ready(function(){
+    $("select[name='admin']").change(function(){
+        if($(this).val() === "admin") {
+            $("#adminPwRow").show();
+        } else {
+            $("#adminPwRow").hide();
+            $("#adminPass").val(""); // 비우기
+        }
+    });
+});
+</script>
+
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
@@ -45,6 +58,19 @@ img:hover {
 	<form action="usersave" method="post">
 		<table border="3" width="400px" align="center">
 			<caption>회원관리 입력화면</caption>
+
+			<tr>
+				<th>회원 유형</th>
+				<td><select name="admin">
+						<option value="user">일반 사용자</option>
+						<option value="admin">관리자</option>
+				</select></td>
+			</tr>
+
+			<tr id="adminPwRow" style="display: none;">
+				<th>관리자용 비밀번호</th>
+				<td><input type="password" name="adminPass" id="adminPass"></td>
+			</tr>
 
 			<tr>
 				<th>아이디</th>

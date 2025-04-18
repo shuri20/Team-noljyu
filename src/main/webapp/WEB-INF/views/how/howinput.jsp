@@ -8,6 +8,7 @@
 </head>
 <body>
 <form action="howsave" method="post" enctype="multipart/form-data">
+<input type="hidden" name="knowhow" value="knowhow">
 <table border="1" width="400px" align="center">
 	<caption>나만의 노하우 글 등록</caption>
 	
